@@ -28,28 +28,7 @@ class Registro extends StatelessWidget {
                     .cover, // Ajusta la imagen para que cubra toda el área
               ),
             ),
-          ),
-          Positioned(
-            top: kToolbarHeight +
-                -60, // Posiciona la línea roja debajo del AppBar
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 6, // Altura de la línea roja
-              color:
-                  Color.fromARGB(255, 255, 255, 255), // Color de la línea roja
-            ),
-          ),
-          Positioned(
-            top: kToolbarHeight +
-                -54, // Posiciona la línea roja debajo del AppBar
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 3, // Altura de la línea roja
-              color: Color.fromARGB(255, 255, 0, 0), // Color de la línea roja
-            ),
-          ),
+          ),      
           Center(
             child: SingleChildScrollView(
               child: Padding(
@@ -353,6 +332,27 @@ class Registro extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+           Positioned(
+            top: kToolbarHeight +
+                -60, // Posiciona la línea roja debajo del AppBar
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 6, // Altura de la línea roja
+              color:
+                  Color.fromARGB(255, 255, 255, 255), // Color de la línea roja
+            ),
+          ),
+          Positioned(
+            top: kToolbarHeight +
+                -54, // Posiciona la línea roja debajo del AppBar
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 3, // Altura de la línea roja
+              color: Color.fromARGB(255, 255, 0, 0), // Color de la línea roja
             ),
           ),
         ],

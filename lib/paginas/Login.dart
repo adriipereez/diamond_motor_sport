@@ -1,11 +1,33 @@
+import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/customdrawe.dart';
-import 'package:diamond_motor_sport/paginas/Registro.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart'; // Importa el widget CustomAppBar
 import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatelessWidget {
   final void Function() alHacerClick;
+
+   final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPass = TextEditingController();
+
+    void HacerLogin(BuildContext context) async {
+    final servicioAuth = ServicioAuth();
+
+    try{
+
+      await servicioAuth.loginConEmailPassword(
+        controllerEmail.text, 
+        controllerPass.text,
+      );
+
+    } catch (e) {
+      showDialog(context: context, builder: (context) => AlertDialog(
+        title: const Text("ERROR"),
+        content: Text(e.toString()),
+      ));
+    }
+
+  }
 
   Login({Key? key, required this.alHacerClick});
   final _formKey = GlobalKey<FormState>();
@@ -80,10 +102,10 @@ class Login extends StatelessWidget {
                       ),
                       const SizedBox(height: 10.0),
                       TextFormField(
+                        controller: controllerEmail,
                         cursorColor: Color.fromARGB(255, 255, 17, 0),
                         style: const TextStyle(
-                            color: Color.fromARGB(255, 255, 0,
-                                0)), // Cambia el color de texto a blanco
+                            color: Color.fromARGB(255, 255, 255, 255)), // Cambia el color de texto a blanco
                         decoration: const InputDecoration(
                           errorStyle: TextStyle(
                               color: Color.fromARGB(255, 255, 255,
@@ -115,6 +137,7 @@ class Login extends StatelessWidget {
                       ),
                       const SizedBox(height: 16.0),
                       TextFormField(
+                        controller: controllerPass,
                         cursorColor: Color.fromARGB(255, 255, 17, 0),
                         style: const TextStyle(
                           color: Colors.white,
@@ -174,9 +197,10 @@ class Login extends StatelessWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
+                              HacerLogin(context);
                               if (_formKey.currentState!.validate()) {
-                                // Si el formulario es válido, realiza la acción
-                                // Aquí puedes implementar la lógica para crear la cuenta
+                                
+                                
                               }
                             },
                             child: const Padding(
@@ -198,7 +222,7 @@ class Login extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextButton(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "457754092128",
+    "project_id": "diamondmotorsport-b7535",
+    "storage_bucket": "diamondmotorsport-b7535.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457754092128:android:ad9a38e1bef0f63fda9905",
+        "android_client_info": {
+          "package_name": "com.example.diamond_motor_sport"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUbblM01zH7c5vMS4tEnB0A2FaUb-L5H0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

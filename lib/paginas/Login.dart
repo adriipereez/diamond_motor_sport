@@ -1,5 +1,5 @@
 import 'package:diamond_motor_sport/auth/servicio_auth.dart';
-import 'package:diamond_motor_sport/componentes/customdrawe.dart';
+import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart'; // Importa el widget CustomAppBar
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 class Login extends StatelessWidget {
   final void Function() alHacerClick;
 
-   final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPass = TextEditingController();
 
     void HacerLogin(BuildContext context) async {

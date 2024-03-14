@@ -1,4 +1,4 @@
-import 'package:diamond_motor_sport/componentes/customdrawe.dart';
+import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:diamond_motor_sport/paginas/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart'; // Importa el widget CustomAppBar
@@ -8,6 +8,14 @@ class Registro extends StatelessWidget {
   final void Function() alHacerClick;
   Registro({Key? key,required this.alHacerClick});
   final _formKey = GlobalKey<FormState>(); // GlobalKey para el formulario
+
+  
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPass = TextEditingController();
+  final TextEditingController controllerPass2 = TextEditingController();
+  final TextEditingController controlernombre = TextEditingController();
+  final TextEditingController controlerapellido = TextEditingController();
+    final TextEditingController controlertelefono = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +71,7 @@ class Registro extends StatelessWidget {
                           ),
                           const SizedBox(height: 20.0),
                           TextFormField(
+                            controller: controllerEmail,
                             cursorColor: Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                                 color: Colors
@@ -95,9 +104,11 @@ class Registro extends StatelessWidget {
                               }
                               return null;
                             },
+                            obscureText: false,
                           ),
                           SizedBox(height: 20.0),
                           TextFormField(
+                            controller: controllerPass,
                             cursorColor: Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
@@ -128,12 +139,16 @@ class Registro extends StatelessWidget {
                               if (value == null || value.isEmpty) {
                                 return '* Este campo es obligatorio *';
                               }
-                              return null;
+                              if(controllerPass.text != controllerPass2.text){
+                                return '* Las contraseñas tienen que ser iguales *';
+                              }
+                              return null; 
                             },
                             obscureText: true,
                           ),
                           SizedBox(height: 20.0),
                           TextFormField(
+                            controller: controllerPass2,
                             cursorColor: Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
@@ -164,12 +179,16 @@ class Registro extends StatelessWidget {
                               if (value == null || value.isEmpty) {
                                 return '* Este campo es obligatorio *';
                               }
+                              if(controllerPass.text != controllerPass2.text){
+                                return '* Las contraseñas tienen que ser iguales *';
+                              }
                               return null;
                             },
                             obscureText: true,
                           ),
                           SizedBox(height: 20.0),
                           TextFormField(
+                            controller: controlernombre,
                             cursorColor: Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
@@ -202,10 +221,11 @@ class Registro extends StatelessWidget {
                               }
                               return null;
                             },
-                            obscureText: true,
+                            obscureText: false,
                           ),
                           SizedBox(height: 20.0),
                           TextFormField(
+                            controller: controlerapellido,
                             cursorColor: Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
@@ -238,10 +258,11 @@ class Registro extends StatelessWidget {
                               }
                               return null;
                             },
-                            obscureText: true,
+                            obscureText: false,
                           ),
                           SizedBox(height: 20.0),
                           TextFormField(
+                            controller: controlertelefono,
                             cursorColor: Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
@@ -274,7 +295,7 @@ class Registro extends StatelessWidget {
                               }
                               return null;
                             },
-                            obscureText: true,
+                            obscureText: false,
                           ),
                           SizedBox(height: 40.0),
                           Container(
@@ -290,8 +311,7 @@ class Registro extends StatelessWidget {
                               child: InkWell(
                                 onTap: () {
                                   if (_formKey.currentState!.validate()) {
-                                    // Si el formulario es válido, realiza la acción
-                                    // Aquí puedes implementar la lógica para crear la cuenta
+                                    
                                   }
                                 },
                                 child: const Padding(

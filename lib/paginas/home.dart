@@ -1,4 +1,7 @@
+import 'package:diamond_motor_sport/componentes/customappbar.dart';
+import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key});
@@ -7,10 +10,8 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Appbar'),
-        backgroundColor: Colors.white,
-      ),
+      appBar: const CustomAppBar(),
+      drawer: const CustomDrawer(),
       backgroundColor: Colors.black,
       body: ListView(
         children: [
@@ -24,13 +25,12 @@ class Home extends StatelessWidget {
                   'assets/mainphoto.jpg',
                   fit: BoxFit.cover,
                 ),
-                const Positioned(
+                Positioned(
                   top: 300.0,
                   left: 50.0,
-                  
                   child: Text(
                     'Compra y vende los mejores coches de lujo',
-                    style: TextStyle(
+                    style: GoogleFonts.novaMono(
                       color: Colors.white,
                       fontSize: 35.0,
                     ),
@@ -92,31 +92,7 @@ class Home extends StatelessWidget {
               ],
             ),
           ),
-          // Añadir el componente Footer al final
-          const Footer(),
         ],
-      ),
-    );
-  }
-}
-
-// Componente Footer
-class Footer extends StatelessWidget {
-  const Footer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
-      child: const Center(
-        child: Text(
-          '© 2024 Tu Empresa. Todos los derechos reservados.',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14.0,
-          ),
-        ),
       ),
     );
   }
@@ -134,8 +110,7 @@ class HoverImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: SizedBox(
         width: double.infinity,
         height: 300.0,

@@ -1,5 +1,5 @@
 import 'package:diamond_motor_sport/auth/login_o_registro.dart';
-import 'package:diamond_motor_sport/paginas/principal.dart';
+import 'package:diamond_motor_sport/paginas/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class PortalAuth extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if(snapshot.hasData){
-            return Inicio();
+            return const Home();
           } else {
             return const LoginORegistro();
           }

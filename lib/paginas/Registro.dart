@@ -1,3 +1,4 @@
+import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:diamond_motor_sport/paginas/Login.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,19 @@ class Registro extends StatelessWidget {
   final TextEditingController controllerPass2 = TextEditingController();
   final TextEditingController controlernombre = TextEditingController();
   final TextEditingController controlerapellido = TextEditingController();
-    final TextEditingController controlertelefono = TextEditingController();
+  final TextEditingController controlertelefono = TextEditingController();
+
+  void HacerRegistro(BuildContext context) async {
+    final servicioAuth = ServicioAuth();
+    try {
+      servicioAuth.registroConEmailPassword(controllerEmail.text, controllerPass.text, controlernombre.text, controlerapellido.text, controlertelefono.text);
+    } catch (e){
+      showDialog(context: context, builder: (context) => AlertDialog(
+        title: const Text("ERROR"),
+        content: Text(e.toString()),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -311,7 +324,7 @@ class Registro extends StatelessWidget {
                               child: InkWell(
                                 onTap: () {
                                   if (_formKey.currentState!.validate()) {
-                                    
+                                    HacerRegistro(context);
                                   }
                                 },
                                 child: const Padding(

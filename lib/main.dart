@@ -1,8 +1,6 @@
-import 'package:diamond_motor_sport/auth/login_o_registro.dart';
+
 import 'package:diamond_motor_sport/auth/portal_auth.dart';
 import 'package:diamond_motor_sport/firebase_options.dart';
-import 'package:diamond_motor_sport/paginas/Login.dart';
-import 'package:diamond_motor_sport/paginas/Registro.dart';
 import 'package:diamond_motor_sport/paginas/drawerrouter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: PortalAuth(),
       onGenerateRoute: DrawerRoutes.generateDrawerRoute,

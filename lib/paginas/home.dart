@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const CustomAppBar(),
-      drawer: const CustomDrawer(),
+      drawer: CustomDrawer(),
       backgroundColor: Colors.black,
       body: ListView(
         children: [

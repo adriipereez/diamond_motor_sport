@@ -1,8 +1,10 @@
+import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/paginas/drawerrouter.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  CustomDrawer({Key? key}) : super(key: key);
+  final servicio = ServicioAuth();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,9 @@ class CustomDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    leading: Icon(Icons.home,
+                    leading: const Icon(Icons.home,
                         color: Colors.white), // Cambia el color del ícono
-                    title: Text("Página principal",
+                    title: const Text("Página principal",
                         style: TextStyle(
                             color: Colors.white)), // Cambia el color del texto
                     onTap: () {
@@ -39,8 +41,8 @@ class CustomDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.post_add, color: Colors.white),
-                    title: Text("Página de copia",
+                    leading: const Icon(Icons.post_add, color: Colors.white),
+                    title: const Text("Página de copia",
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
                       Navigator.pushReplacementNamed(
@@ -48,13 +50,24 @@ class CustomDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.add_shopping_cart,
+                    leading: const Icon(Icons.add_shopping_cart,
                         color: Colors.white), // Cambia el color del ícono
-                    title: Text("Lista Sillas",
+                    title: const Text("Lista Sillas",
                         style: TextStyle(
                             color: Colors.white)), // Cambia el color del texto
                     onTap: () {
                       Navigator.pushReplacementNamed(context, "/listasillas");
+                    },
+                  ),
+                  Divider(), // Línea horizontal
+                  ListTile(
+                    leading: const Icon(Icons.logout,
+                        color: Colors.white), // Cambia el color del ícono
+                    title: const Text("Cerrar Sesión",
+                        style: TextStyle(
+                            color: Colors.white)), // Cambia el color del texto
+                    onTap: () {
+                      servicio.cerrarsesion();
                     },
                   ),
                 ],

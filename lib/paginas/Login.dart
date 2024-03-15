@@ -38,7 +38,7 @@ class Login extends StatelessWidget {
       appBar: const CustomAppBar(
         titleText: "LOGIN",
       ), // Usa CustomAppBar como el appBar
-      drawer: const CustomDrawer(),
+      drawer: CustomDrawer(),
       body: Stack(
         // Utiliza un Stack para superponer widgets
         children: [

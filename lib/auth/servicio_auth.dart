@@ -50,6 +50,9 @@ class ServicioAuth {
     return await _auth.signOut();
   }
 
+User? getUsuarioActual(){
+    return _auth.currentUser;
+  }
 
 Future<String> obtenerDatosUsuario(String uid) async { print('hola');
   try {
@@ -70,5 +73,6 @@ Future<String> obtenerDatosUsuario(String uid) async { print('hola');
   } catch (error) {
     return('Error al obtener los datos del usuario: $error');
   }
+
 }
 }

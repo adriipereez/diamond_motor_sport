@@ -13,7 +13,7 @@ class LoginORegistro extends StatefulWidget {
 class _LoginORegistroState extends State<LoginORegistro> {
   bool muestraPaginaLogin = true;
 
-  void IntercambiarPaginasLoginRegistro() {
+  void intercambiarPaginasLoginRegistro() {
     setState(() {
       muestraPaginaLogin = !muestraPaginaLogin;
     });
@@ -22,9 +22,9 @@ class _LoginORegistroState extends State<LoginORegistro> {
   @override
   Widget build(BuildContext context) {
     if (muestraPaginaLogin) {
-      return Login(alHacerClick: IntercambiarPaginasLoginRegistro,);
+      return Login(alHacerClick: intercambiarPaginasLoginRegistro,);
     } else {
-      return Registro(alHacerClick: IntercambiarPaginasLoginRegistro,);
+      return Registro(alHacerClick: intercambiarPaginasLoginRegistro,);
     }
   }
 }

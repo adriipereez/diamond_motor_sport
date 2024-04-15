@@ -1,7 +1,7 @@
 
 import 'package:diamond_motor_sport/auth/portal_auth.dart';
 import 'package:diamond_motor_sport/firebase_options.dart';
-import 'package:diamond_motor_sport/paginas/drawerrouter.dart';
+import 'package:diamond_motor_sport/componentes/drawerrouter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

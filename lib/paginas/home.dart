@@ -1,5 +1,6 @@
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
+import 'package:diamond_motor_sport/componentes/footer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,10 +11,11 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(showBottomLine: true,),
       drawer: CustomDrawer(),
       backgroundColor: Colors.black,
-      body: ListView(
+      body: 
+      ListView(
         children: [
           SizedBox(
             width: double.infinity,
@@ -89,6 +91,8 @@ class Home extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 16.0),
                   child: const ContactForm(),
                 ),
+                const Divider(),
+                const Footer(),
               ],
             ),
           ),

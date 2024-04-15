@@ -1,9 +1,9 @@
 import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
-import 'package:diamond_motor_sport/paginas/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart'; // Importa el widget CustomAppBar
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/painting.dart';
 
 class Registro extends StatelessWidget {
   final void Function() alHacerClick;
@@ -34,7 +34,7 @@ class Registro extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        titleText: "REGISTRO",
+        titleText: "",
       ), // Usa CustomAppBar como el appBar
       drawer: CustomDrawer(),
       body: Stack(
@@ -71,7 +71,7 @@ class Registro extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -85,7 +85,7 @@ class Registro extends StatelessWidget {
                           const SizedBox(height: 20.0),
                           TextFormField(
                             controller: controllerEmail,
-                            cursorColor: Color.fromARGB(255, 255, 17, 0),
+                            cursorColor: const Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                                 color: Colors
                                     .white), // Cambia el color de texto a blanco
@@ -119,10 +119,10 @@ class Registro extends StatelessWidget {
                             },
                             obscureText: false,
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           TextFormField(
                             controller: controllerPass,
-                            cursorColor: Color.fromARGB(255, 255, 17, 0),
+                            cursorColor: const Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
                             ), // Cambia el color de texto a blanco
@@ -159,10 +159,10 @@ class Registro extends StatelessWidget {
                             },
                             obscureText: true,
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           TextFormField(
                             controller: controllerPass2,
-                            cursorColor: Color.fromARGB(255, 255, 17, 0),
+                            cursorColor: const Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
                             ), // Cambia el color de texto a blanco
@@ -199,10 +199,10 @@ class Registro extends StatelessWidget {
                             },
                             obscureText: true,
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           TextFormField(
                             controller: controlernombre,
-                            cursorColor: Color.fromARGB(255, 255, 17, 0),
+                            cursorColor: const Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
                             ), // Cambia el color de texto a blanco
@@ -236,10 +236,10 @@ class Registro extends StatelessWidget {
                             },
                             obscureText: false,
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           TextFormField(
                             controller: controlerapellido,
-                            cursorColor: Color.fromARGB(255, 255, 17, 0),
+                            cursorColor: const Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
                             ), // Cambia el color de texto a blanco
@@ -273,10 +273,10 @@ class Registro extends StatelessWidget {
                             },
                             obscureText: false,
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           TextFormField(
                             controller: controlertelefono,
-                            cursorColor: Color.fromARGB(255, 255, 17, 0),
+                            cursorColor: const Color.fromARGB(255, 255, 17, 0),
                             style: const TextStyle(
                               color: Colors.white,
                             ), // Cambia el color de texto a blanco
@@ -310,7 +310,7 @@ class Registro extends StatelessWidget {
                             },
                             obscureText: false,
                           ),
-                          SizedBox(height: 40.0),
+                          const SizedBox(height: 40.0),
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
@@ -345,7 +345,7 @@ class Registro extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           TextButton(
@@ -375,7 +375,7 @@ class Registro extends StatelessWidget {
             child: Container(
               height: 6, // Altura de la línea roja
               color:
-                  Color.fromARGB(255, 255, 255, 255), // Color de la línea roja
+                  const Color.fromARGB(255, 255, 255, 255), // Color de la línea roja
             ),
           ),
           Positioned(
@@ -385,7 +385,7 @@ class Registro extends StatelessWidget {
             right: 0,
             child: Container(
               height: 3, // Altura de la línea roja
-              color: Color.fromARGB(255, 255, 0, 0), // Color de la línea roja
+              color: const Color.fromARGB(255, 255, 0, 0), // Color de la línea roja
             ),
           ),
         ],

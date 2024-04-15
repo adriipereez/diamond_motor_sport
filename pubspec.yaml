@@ -4,14 +4,14 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  google_fonts: ^6.1.0
+  google_fonts: 6.1.0
   firebase_core: ^2.26.0
   firebase_auth: ^4.17.7
   cloud_firestore: ^4.15.7
@@ -34,3 +34,7 @@ flutter:
     - assets/image3.jpg
     - assets/image4.jpg
     - assets/mainphoto.jpg
+    - assets/yt.png
+    - assets/i.png
+    - assets/f.png
+    - assets/pp.png

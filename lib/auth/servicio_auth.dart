@@ -10,17 +10,8 @@ class ServicioAuth {
     try {
       UserCredential credencialusuario = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-
       if (credencialusuario.user != null) {
-        print(credencialusuario.user!.uid);
         String uid = credencialusuario.user!.uid;
-        await _firestore.collection("Usuarios").doc(uid).set({
-          "uid": credencialusuario.user!.uid,
-          "email": email,
-          "nombre": "",
-          "apellido": "",
-          "telefono": "",
-        });
       }
       return credencialusuario;
     } on FirebaseAuthException catch (error) {
@@ -38,7 +29,6 @@ class ServicioAuth {
         password: password,
       );
       if (credencialusuario.user != null) {
-        print(credencialusuario.user!.uid);
         String uid = credencialusuario.user!.uid;
         await _firestore.collection("Usuarios").doc(uid).set({
           "uid": credencialusuario.user!.uid,
@@ -59,4 +49,26 @@ class ServicioAuth {
   Future<void> cerrarsesion() async {
     return await _auth.signOut();
   }
+
+
+Future<String> obtenerDatosUsuario(String uid) async { print('hola');
+  try {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentSnapshot snapshot = await firestore.collection('Usuarios').doc(uid).get();
+
+    if (snapshot.exists) {
+      // Si el documento existe, puedes acceder a todos los campos
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      /*print('Datos del usuario:');
+      data.forEach((key, value) {
+        print('$key: $value');
+      });*/
+      return data['nombre'];
+    } else {
+      return('El documento no existe');
+    }
+  } catch (error) {
+    return('Error al obtener los datos del usuario: $error');
+  }
+}
 }

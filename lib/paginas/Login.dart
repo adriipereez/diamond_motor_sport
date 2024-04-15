@@ -3,6 +3,7 @@ import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart'; // Importa el widget CustomAppBar
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/painting.dart';
 
 class Login extends StatelessWidget {
   final void Function() alHacerClick;
@@ -10,7 +11,7 @@ class Login extends StatelessWidget {
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPass = TextEditingController();
 
-    void HacerLogin(BuildContext context) async {
+    void hacerLogin(BuildContext context) async {
     final servicioAuth = ServicioAuth();
 
     try{
@@ -36,7 +37,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        titleText: "LOGIN",
+        titleText: "",
       ), // Usa CustomAppBar como el appBar
       drawer: CustomDrawer(),
       body: Stack(
@@ -103,7 +104,7 @@ class Login extends StatelessWidget {
                       const SizedBox(height: 10.0),
                       TextFormField(
                         controller: controllerEmail,
-                        cursorColor: Color.fromARGB(255, 255, 17, 0),
+                        cursorColor: const Color.fromARGB(255, 255, 17, 0),
                         style: const TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255)), // Cambia el color de texto a blanco
                         decoration: const InputDecoration(
@@ -138,7 +139,7 @@ class Login extends StatelessWidget {
                       const SizedBox(height: 16.0),
                       TextFormField(
                         controller: controllerPass,
-                        cursorColor: Color.fromARGB(255, 255, 17, 0),
+                        cursorColor: const Color.fromARGB(255, 255, 17, 0),
                         style: const TextStyle(
                           color: Colors.white,
                         ), // Cambia el color de texto a blanco
@@ -197,7 +198,7 @@ class Login extends StatelessWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
-                              HacerLogin(context);
+                              hacerLogin(context);
                               if (_formKey.currentState!.validate()) {
                                 
                                 

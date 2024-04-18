@@ -312,17 +312,41 @@ class _ContactFormState extends State<ContactForm> {
             CustomTextField(controller: _nameController, hintText: 'Nombre'),
             const SizedBox(height: 16.0),
             CustomTextField(controller: _emailController, hintText: 'Correo Electrónico'),
-             const SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             CustomTextField(controller: _messageController, hintText: 'Mensaje', maxLines: 3,),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                print('Enviando formulario...');
-                print('Nombre: ${_nameController.text}');
-                print('Correo Electrónico: ${_emailController.text}');
-                print('Mensaje: ${_messageController.text}');
-              },
-              child: const Text('Enviar'),
+            Center(
+              child: Container(
+                width: 200,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(
+                      255, 255, 17, 0), // Color de fondo rojo
+                  borderRadius: BorderRadius.circular(
+                      10), // Bordes más cuadrados con radio de 10
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {},
+                    child: const Padding(
+                      padding: EdgeInsets.all(2.0),
+                      child: Center(
+                        child: Text(
+                          'Enviar',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            letterSpacing: 2,
+                            color: Colors.white, // Color de texto blanco
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

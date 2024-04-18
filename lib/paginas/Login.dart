@@ -10,23 +10,22 @@ class Login extends StatelessWidget {
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPass = TextEditingController();
 
-    void HacerLogin(BuildContext context) async {
+  void HacerLogin(BuildContext context) async {
     final servicioAuth = ServicioAuth();
 
-    try{
-
+    try {
       await servicioAuth.loginConEmailPassword(
-        controllerEmail.text, 
+        controllerEmail.text,
         controllerPass.text,
       );
-
     } catch (e) {
-      showDialog(context: context, builder: (context) => AlertDialog(
-        title: const Text("ERROR"),
-        content: Text(e.toString()),
-      ));
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text("ERROR"),
+                content: Text(e.toString()),
+              ));
     }
-
   }
 
   Login({Key? key, required this.alHacerClick});
@@ -80,10 +79,8 @@ class Login extends StatelessWidget {
               width: 600,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white, width: 3),
-                color: const Color.fromARGB(
-                    180, 0, 0, 0), // Cambia el color de fondo a negro
-                borderRadius:
-                    BorderRadius.circular(20), // Agrega bordes redondos
+                color: const Color.fromARGB(180, 0, 0, 0),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(60.0),
@@ -105,11 +102,10 @@ class Login extends StatelessWidget {
                         controller: controllerEmail,
                         cursorColor: Color.fromARGB(255, 255, 17, 0),
                         style: const TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)), // Cambia el color de texto a blanco
+                            color: Color.fromARGB(255, 255, 255, 255)),
                         decoration: const InputDecoration(
                           errorStyle: TextStyle(
-                              color: Color.fromARGB(255, 255, 255,
-                                  255), // Personaliza el color del mensaje de error
+                              color: Color.fromARGB(255, 255, 255, 255),
                               fontStyle: FontStyle
                                   .italic, // Personaliza el estilo del mensaje de error
                               fontWeight: FontWeight.bold),
@@ -198,10 +194,7 @@ class Login extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               HacerLogin(context);
-                              if (_formKey.currentState!.validate()) {
-                                
-                                
-                              }
+                              if (_formKey.currentState!.validate()) {}
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(12.0),
@@ -226,9 +219,7 @@ class Login extends StatelessWidget {
                         height: 30,
                       ),
                       TextButton(
-                        onPressed: () {
-                          
-                        },
+                        onPressed: () {},
                         child: const Text(
                           '¿Has olvidado la contraseña?',
                           style: TextStyle(

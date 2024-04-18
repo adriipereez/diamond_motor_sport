@@ -57,6 +57,16 @@ class CustomDrawer extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, "/listasillas");
                     },
                   ),
+                  ListTile(
+                    leading: Icon(Icons.add_shopping_cart,
+                        color: Colors.white), // Cambia el color del ícono
+                    title: Text("Lista Sillas",
+                        style: TextStyle(
+                            color: Colors.white)), // Cambia el color del texto
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, "/paginas/sobrenosotros");
+                    },
+                  ),
                 ],
               ),
             ),

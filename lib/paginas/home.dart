@@ -1,3 +1,4 @@
+import 'package:diamond_motor_sport/componentes/customTextField.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:diamond_motor_sport/componentes/footer.dart';
@@ -11,11 +12,12 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(showBottomLine: true,),
+      appBar: const CustomAppBar(
+        showBottomLine: true,
+      ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.black,
-      body: 
-      ListView(
+      body: ListView(
         children: [
           SizedBox(
             width: double.infinity,
@@ -168,7 +170,7 @@ class HoverImageWithTextSlider extends StatefulWidget {
 
 class _HoverImageWithTextSliderState extends State<HoverImageWithTextSlider> {
   int _currentIndex = 0;
-  List<String> _textList = [
+  final List<String> _textList = [
     'Muy buena pagina : Leo Messi',
     'Bonicos coxes : Sergio Ramos',
     'Carro muito bom : Neymar Jr',
@@ -307,30 +309,11 @@ class _ContactFormState extends State<ContactForm> {
               ),
             ),
             const SizedBox(height: 16.0),
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Nombre',
-                border: OutlineInputBorder(),
-              ),
-            ),
+            CustomTextField(controller: _nameController, hintText: 'Nombre'),
             const SizedBox(height: 16.0),
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Correo Electrónico',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            TextFormField(
-              controller: _messageController,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Mensaje',
-                border: OutlineInputBorder(),
-              ),
-            ),
+            CustomTextField(controller: _emailController, hintText: 'Correo Electrónico'),
+             const SizedBox(height: 16.0),
+            CustomTextField(controller: _messageController, hintText: 'Mensaje', maxLines: 3,),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {

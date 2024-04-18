@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 class GridAnuncios extends StatelessWidget {
   const GridAnuncios({Key? key}) : super(key: key);
@@ -11,7 +9,7 @@ class GridAnuncios extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text('Alquiler de Coches'),
+        title: const Text('Coches', style: TextStyle(color: Colors.white)),
       ),
       body: const Column(
         children: [
@@ -26,64 +24,68 @@ class GridAnuncios extends StatelessWidget {
 }
 
 class FilterBanner extends StatefulWidget {
-  const FilterBanner({super.key});
+  const FilterBanner({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _FilterBannerState createState() => _FilterBannerState();
 }
 
 class _FilterBannerState extends State<FilterBanner> {
-  double _currentSliderValueYear = 1990;
-  double _currentSliderValueKm = 500000;
-  String? _selectedFuelType; // Tipo de combustible seleccionado
+  double _currentSliderValueKm = 1000000;
+  String? _selectedFuelType;
+  double _currentSliderValueMaxYear = 2024;
+  double _currentSliderValueMinYear = 1960;
+
+  void resetFilters() {
+    setState(() {
+      _currentSliderValueKm = 1000000;
+      _selectedFuelType = null;
+      _currentSliderValueMaxYear = 2024;
+      _currentSliderValueMinYear = 1960;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: FractionallySizedBox(
-            widthFactor: 0.75, // Ocupa un tercio del ancho disponible
-            child: GestureDetector(
-              onTap: () {
-                // Lógica cuando se toca el banner de filtro
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Container(
-                  height: 150, // Ajusta la altura según sea necesario
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Filtrar por km: ${_currentSliderValueKm.toInt()}',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                      Slider(
-                        value: _currentSliderValueKm,
-                        min: 0,
-                        max: 999999,
-                        divisions: 64,
-                        label: _currentSliderValueKm.round().toString(),
-                        onChanged: (double value) {
-                          setState(() {
-                            _currentSliderValueKm = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+            widthFactor: 0.75,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
+                height: 150,
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Filtrar por km: ${_currentSliderValueKm.toInt()}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Slider(
+                      value: _currentSliderValueKm,
+                      min: 0,
+                      max: 1000000,
+                      divisions: 64,
+                      label: _currentSliderValueKm.round().toString(),
+                      activeColor: Colors.red,
+                      onChanged: (double value) {
+                        setState(() {
+                          _currentSliderValueKm = value;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -91,11 +93,85 @@ class _FilterBannerState extends State<FilterBanner> {
         ),
         Expanded(
           child: FractionallySizedBox(
-            widthFactor: 0.75, // Ocupa un tercio del ancho disponible
+            widthFactor: 0.75,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Container(
-                height: 150, // Ajusta la altura según sea necesario
+                height: 150,
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'Año mínimo: ${_currentSliderValueMinYear.toInt()}',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    Slider(
+                      value: _currentSliderValueMinYear,
+                      min: 1960,
+                      max: 2024,
+                      divisions: 64,
+                      label: _currentSliderValueMinYear.round().toString(),
+                      activeColor: Colors.red,
+                      onChanged: (double value) {
+                        setState(() {
+                          _currentSliderValueMinYear = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: FractionallySizedBox(
+            widthFactor: 0.75,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
+                height: 150,
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'Año máximo: ${_currentSliderValueMaxYear.toInt()}',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    Slider(
+                      value: _currentSliderValueMaxYear,
+                      min: 1960,
+                      max: 2024,
+                      divisions: 64,
+                      label: _currentSliderValueMaxYear.round().toString(),
+                      activeColor: Colors.red,
+                      onChanged: (double value) {
+                        setState(() {
+                          _currentSliderValueMaxYear = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: FractionallySizedBox(
+            widthFactor: 0.75,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
+                height: 150,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
@@ -112,8 +188,7 @@ class _FilterBannerState extends State<FilterBanner> {
                           _selectedFuelType = newValue;
                         });
                       },
-                      dropdownColor: Colors
-                          .black, // Establecer el color de fondo del desplegable
+                      dropdownColor: Colors.black,
                       items: <String>[
                         'Gasolina',
                         'Diesel',
@@ -124,9 +199,7 @@ class _FilterBannerState extends State<FilterBanner> {
                           value: value,
                           child: Text(
                             value,
-                            style: const TextStyle(
-                                color: Colors
-                                    .white), // Establecer el color del texto en blanco
+                            style: const TextStyle(color: Colors.white),
                           ),
                         );
                       }).toList(),
@@ -139,33 +212,53 @@ class _FilterBannerState extends State<FilterBanner> {
         ),
         Expanded(
           child: FractionallySizedBox(
-            widthFactor: 0.75, // Ocupa un tercio del ancho disponible
+            widthFactor: 0.85,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Container(
-                height: 150, // Ajusta la altura según sea necesario
+                height: 150,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Row(
                   children: [
-                    Text(
-                      'Filtrar por año: ${_currentSliderValueYear.toInt()}',
-                      style: const TextStyle(color: Colors.white),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        onPressed: resetFilters,
+                        child: const Text(
+                          'Borrar filtro',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
-                    Slider(
-                      value: _currentSliderValueYear,
-                      min: 1960,
-                      max: 2024,
-                      divisions: 64,
-                      label: _currentSliderValueYear.round().toString(),
-                      onChanged: (double value) {
-                        setState(() {
-                          _currentSliderValueYear = value;
-                        });
-                      },
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          'Filtrar',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -179,7 +272,7 @@ class _FilterBannerState extends State<FilterBanner> {
 }
 
 class CarAdsGrid extends StatelessWidget {
-  const CarAdsGrid({super.key});
+  const CarAdsGrid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -196,13 +289,30 @@ class CarAdsGrid extends StatelessWidget {
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
             ),
-            itemCount: 8, // Número de coches en la base de datos
+            itemCount: 8,
             itemBuilder: (BuildContext context, int index) {
+              // Simulando datos únicos para cada anuncio
+              final carMake = '$index';
+              final carModel = '$index';
+              final carYear = '${index % 10}';
+              final carMileage = 'Km';
+              final carFuelType = index % 4 == 0
+                  ? 'Gasolina'
+                  : index % 4 == 1
+                      ? 'Diesel'
+                      : index % 4 == 2
+                          ? 'Eléctrico'
+                          : 'Híbrido';
+
               return GestureDetector(
-                onTap: () {
-                  // Lógica cuando se toca el anuncio de coche
-                },
-                child: const CarAdWidget(),
+                onTap: () {},
+                child: CarAdWidget(
+                  make: carMake,
+                  model: carModel,
+                  year: carYear,
+                  mileage: carMileage,
+                  fuelType: carFuelType,
+                ),
               );
             },
           ),
@@ -213,7 +323,20 @@ class CarAdsGrid extends StatelessWidget {
 }
 
 class CarAdWidget extends StatelessWidget {
-  const CarAdWidget({super.key});
+  final String make;
+  final String model;
+  final String year;
+  final String mileage;
+  final String fuelType;
+
+  const CarAdWidget({
+    Key? key,
+    required this.make,
+    required this.model,
+    required this.year,
+    required this.mileage,
+    required this.fuelType,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -224,10 +347,44 @@ class CarAdWidget extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: const Column(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Mostrar la información del coche
-          // (imagen, detalles, etc.)
+          Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                make,
+                style: const TextStyle(fontSize: 24),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                model,
+                style: const TextStyle(fontSize: 24),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                year,
+                style: const TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                mileage,
+                style: const TextStyle(fontSize: 24),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                fuelType,
+                style: const TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
         ],
       ),
     );

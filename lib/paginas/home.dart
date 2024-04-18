@@ -1,15 +1,23 @@
+import 'dart:async';
 import 'package:diamond_motor_sport/componentes/customTextField.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
+import 'package:diamond_motor_sport/paginas/gridanuncios.dart';
+import 'package:diamond_motor_sport/paginas/sobrenosotros.dart';
 import 'package:diamond_motor_sport/componentes/footer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:video_player/video_player.dart';
+
 
 class Home extends StatelessWidget {
   const Home({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const CustomAppBar(
@@ -17,100 +25,221 @@ class Home extends StatelessWidget {
       ),
       drawer: CustomDrawer(),
       backgroundColor: Colors.black,
-      body: ListView(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image.asset(
-                  'assets/mainphoto.jpg',
-                  fit: BoxFit.cover,
-                ),
-                Positioned(
-                  top: 300.0,
-                  left: 50.0,
-                  child: Text(
-                    'Compra y vende los mejores coches de lujo',
-                    style: GoogleFonts.novaMono(
-                      color: Colors.white,
-                      fontSize: 35.0,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              width: screenWidth,
+              height: screenHeight,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  const VideoPlayerWidget(videoPath: 'assets/mainvideo.mp4'),
+                  Positioned(
+                    top: screenHeight * 0.45,
+                    left: screenWidth * 0.05,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text(
+                            'Compra y vende los mejores coches de lujo',
+                            style: GoogleFonts.kanit(
+                              color: Colors.white,
+                              fontSize: 35.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const GridAnuncios(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: const Text(
+                            'Explorar',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SobreNosotros(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: const Text(
+                            'Sobre nosotros',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 16.0),
-                const SizedBox(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: HoverImageWidget('assets/image1.jpg',
-                            'Coches deportivos', Alignment.bottomCenter),
-                      ),
-                      SizedBox(width: 16.0),
-                      Expanded(
-                        child: HoverImageWidget('assets/image2.jpg',
-                            'Coches todoterreno', Alignment.bottomCenter),
-                      ),
-                      SizedBox(width: 16.0),
-                      Expanded(
-                        child: HoverImageWidget('assets/image3.jpg',
-                            'Coches descapotables', Alignment.bottomCenter),
-                      ),
-                      SizedBox(width: 16.0),
-                      Expanded(
-                        child: HoverImageWidget('assets/image4.jpg',
-                            'Coches Utilitarios', Alignment.bottomCenter),
-                      ),
-                    ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 75.0),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: HoverImageWidget(
+                            'assets/image1.jpg',
+                            Text(
+                            'Coches Gasolina',
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16.0),
+                        Expanded(
+                          child: HoverImageWidget(
+                            'assets/image2.jpg',
+                            Text(
+                              'Coches Diesel',
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16.0),
+                        Expanded(
+                          child: HoverImageWidget(
+                            'assets/image3.jpg',
+                            Text(
+                              'Coches Hibridos',
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16.0),
+                        Expanded(
+                          child: HoverImageWidget(
+                            'assets/image4.jpg',
+                            Text(
+                              'Coches electricos',
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 100.0),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    double imageSize =
-                        constraints.maxWidth > 600 ? 400.0 : 200.0;
-                    return SizedBox(
-                      width: double.infinity,
-                      height: imageSize,
-                      child: const HoverImageWithTextSlider(
-                          '/main1.jpg', Alignment.bottomCenter),
-                    );
-                  },
-                ),
-                const SizedBox(height: 100.0),
-                Container(
-                  margin: const EdgeInsets.only(left: 16.0),
-                  child: const ContactForm(),
-                ),
-                const Divider(),
-                const Footer(),
-              ],
+                  SizedBox(
+                    height: 64,
+                  ),
+                  ImageWithTextSlider(
+                    imagePath: 'assets/main1.jpg',
+                    textAlignment: Alignment.center,
+                  ),
+                  SizedBox(height: 75.0),
+                  ContactForm(),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
+class VideoPlayerWidget extends StatefulWidget {
+  final String videoPath;
+
+  const VideoPlayerWidget({required this.videoPath, Key? key})
+      : super(key: key);
+
+  @override
+  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+}
+
+class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset(widget.videoPath)
+      ..initialize().then((_) {
+        _controller.play();
+        setState(() {});
+        _controller.setLooping(true);
+        _controller.setVolume(0.0);
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _controller.value.isInitialized
+        ? Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: _controller.value.size.width,
+                  height: _controller.value.size.height,
+                  child: VideoPlayer(_controller),
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
+}
+
 class HoverImageWidget extends StatelessWidget {
   final String imagePath;
-  final String text;
-  final Alignment textAlignment;
+  final Widget child;
 
-  const HoverImageWidget(this.imagePath, this.text, this.textAlignment,
-      {Key? key})
+  const HoverImageWidget(this.imagePath, this.child, {Key? key})
       : super(key: key);
 
   @override
@@ -121,7 +250,6 @@ class HoverImageWidget extends StatelessWidget {
         width: double.infinity,
         height: 300.0,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -131,21 +259,15 @@ class HoverImageWidget extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8.0),
                   onTap: () {
-                    print('Tocaste la imagen: $text');
+                    print('Tocaste la imagen');
                   },
                 ),
               ),
               Align(
-                alignment: textAlignment,
+                alignment: Alignment.topCenter,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    text,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.0,
-                    ),
-                  ),
+                  child: child,
                 ),
               ),
             ],
@@ -156,48 +278,77 @@ class HoverImageWidget extends StatelessWidget {
   }
 }
 
-class HoverImageWithTextSlider extends StatefulWidget {
+class ImageWithTextSlider extends StatefulWidget {
   final String imagePath;
   final Alignment textAlignment;
 
-  const HoverImageWithTextSlider(this.imagePath, this.textAlignment, {Key? key})
-      : super(key: key);
+  const ImageWithTextSlider({
+    required this.imagePath,
+    required this.textAlignment,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _HoverImageWithTextSliderState createState() =>
-      _HoverImageWithTextSliderState();
+  _ImageWithTextSliderState createState() => _ImageWithTextSliderState();
 }
 
-class _HoverImageWithTextSliderState extends State<HoverImageWithTextSlider> {
+class _ImageWithTextSliderState extends State<ImageWithTextSlider> {
   int _currentIndex = 0;
-  final List<String> _textList = [
-    'Muy buena pagina : Leo Messi',
-    'Bonicos coxes : Sergio Ramos',
-    'Carro muito bom : Neymar Jr',
+  late Timer _timer;
+
+  final List<String> _userList = [
+    'Rafael Nadal',
+    'Neymar Jr',
+    'Angel Muñoz García',
+  ];
+
+  final List<String> _reviewList = [
+    '"Se toman muy en serio la experiencia del comprador y la atención al cliente es inmediata, da gusto comprar en esta página."',
+    '"Excelente servicio al cliente y proceso de compra fácil y rápido."',
+    '"El vehículo que compré estaba en perfectas condiciones, tal como se describía en el anuncio."',
+  ];
+
+  final List<String> _userOccupationList = [
+    'Tenista',
+    'Futbolista',
+    'Actor',
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
+      setState(() {
+        _currentIndex = (_currentIndex + 1) % _userList.length;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print('Tocaste la imagen: ${_textList[_currentIndex]}');
-      },
+    return InkWell(
+      highlightColor: Colors.transparent,
       child: SizedBox(
-        width: 500.0,
-        height: 325.0,
+        width: MediaQuery.of(context).size.width,
+        height: 375.0,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Ink.image(
-                image: AssetImage(widget.imagePath),
-                fit: BoxFit.cover,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(8.0),
-                  onTap: () {
-                    print('Tocaste la imagen: ${_textList[_currentIndex]}');
-                  },
+              Positioned.fill(
+                child: Ink.image(
+                  image: AssetImage(widget.imagePath),
+                  fit: BoxFit.fitWidth,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
                 ),
               ),
               Align(
@@ -207,23 +358,45 @@ class _HoverImageWithTextSliderState extends State<HoverImageWithTextSlider> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        _textList[_currentIndex],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
+                      Column(
+                        children: [
+                          Text(
+                            _reviewList[_currentIndex],
+                            style: GoogleFonts.kanit(
+                              color: Colors.white,
+                              fontSize: 30.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            _userList[_currentIndex],
+                            style: GoogleFonts.kanit(
+                              color: Colors.white,
+                              fontSize: 25.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            _userOccupationList[_currentIndex],
+                            style: GoogleFonts.kanit(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 8.0),
                       TextSlider(
                         currentIndex: _currentIndex,
-                        textList: _textList,
+                        textList: _userList,
                         onChanged: (index) {
                           setState(() {
                             _currentIndex = index;
                           });
                         },
                       ),
+                      const SizedBox(height: 8.0),
                     ],
                   ),
                 ),
@@ -262,7 +435,6 @@ class TextSlider extends StatelessWidget {
                 currentIndex > 0 ? () => onChanged(currentIndex - 1) : null,
           ),
         ),
-        Text('${currentIndex + 1}/${textList.length}'),
         SizedBox(
           width: 40.0,
           child: IconButton(
@@ -290,6 +462,10 @@ class _ContactFormState extends State<ContactForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
 
+  bool _nameClicked = false;
+  bool _emailClicked = false;
+  bool _messageClicked = false;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -300,9 +476,9 @@ class _ContactFormState extends State<ContactForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Formulario de Contacto',
-              style: TextStyle(
+              style: GoogleFonts.kanit(
                 color: Colors.white,
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,

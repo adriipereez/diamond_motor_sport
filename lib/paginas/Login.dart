@@ -11,7 +11,7 @@ class Login extends StatelessWidget {
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPass = TextEditingController();
 
-    void hacerLogin(BuildContext context) async {
+  void hacerLogin(BuildContext context) async {
     final servicioAuth = ServicioAuth();
 
     try {
@@ -195,10 +195,7 @@ class Login extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               hacerLogin(context);
-                              if (_formKey.currentState!.validate()) {
-                                
-                                
-                              }
+                              if (_formKey.currentState!.validate()) {}
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(12.0),

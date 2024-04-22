@@ -80,7 +80,7 @@ class CustomDrawer extends StatelessWidget {
                                         .white)), // Cambia el color del texto
                             onTap: () {
                               Navigator.pushReplacementNamed(
-                                  context, DrawerRoutes.chats);
+                                  context, DrawerRoutes.Listachats2);
                             },
                           ),
 

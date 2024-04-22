@@ -44,3 +44,6 @@ app.*.map.json
 
 # ignorar firebase options (apis)
 firebase_options.dart
+
+#ignorar video
+/assets/mainvideo.mp4

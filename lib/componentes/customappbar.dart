@@ -34,13 +34,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Stack(
         children: [
           AppBar(
-            backgroundColor: Color.fromARGB(255, 0, 0, 0),
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
             automaticallyImplyLeading: false,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.menu, color: Colors.white),
+                  icon: const Icon(Icons.menu, color: Colors.white),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },
@@ -62,7 +62,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         MediaQuery.of(context).size.width - 20,
                         MediaQuery.of(context).padding.top + kToolbarHeight + 8,
                       );
-
                       showMenu(
                         context: context,
                         position: RelativeRect.fromRect(
@@ -73,7 +72,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           PopupMenuItem(
                             child: Container(
                               color: Colors.black, // Cambiado a negro
-                              padding: EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -83,42 +82,42 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     builder: (context, snapshot) {
                                       
                                       if (snapshot.hasError) {
-                                        return Text("Error");
+                                        return const Text("Error");
                                       }
 
                                       if (snapshot.connectionState == ConnectionState.waiting) {
-                                        return Text("Cargando datos");
+                                        return const Text("Cargando datos");
                                       }
                                       return Text(
-                                        '¡Hola ${snapshot.data!}!',
+                                        '¡ Hola ${snapshot.data!} !',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 20,
-                                          color: const Color.fromARGB(255, 255, 255, 255),
+                                          color: Color.fromARGB(255, 255, 255, 255),
                                         ),);
                                     }
                                     
                                   ),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   ElevatedButton(
                                     onPressed: () {
                                       Navigator.pop(context); // Cierra el menú emergente
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          Color.fromARGB(255, 63, 32, 32),
+                                          const Color.fromARGB(255, 63, 32, 32),
                                     ), // Cambiado el color del botón
-                                    child: Text(
+                                    child: const Text(
                                       'Editar Perfil',
                                       style: TextStyle(
-                                          color: const Color.fromARGB(
+                                          color: Color.fromARGB(
                                               255,
                                               255,
                                               253,
                                               253)), // Cambiado el color del texto
                                     ),
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   ElevatedButton(
                                     onPressed: () {
                                       ServicioAuth().cerrarsesion();
@@ -126,12 +125,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          Color.fromARGB(255, 63, 32, 32),
+                                          const Color.fromARGB(255, 63, 32, 32),
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       'Cerrar Sesión',
                                       style: TextStyle(
-                                          color: const Color.fromARGB(
+                                          color: Color.fromARGB(
                                               255,
                                               255,
                                               255,
@@ -145,7 +144,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ],
                       );
                     },
-                    child: Icon(Icons.person, color: Colors.white),
+                    child: const Icon(Icons.person, color: Colors.white),
                   ),
               ],
             ),

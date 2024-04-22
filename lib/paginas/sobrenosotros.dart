@@ -12,7 +12,7 @@ class SobreNosotros extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
-      drawer: const CustomDrawer(),
+      drawer: CustomDrawer(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

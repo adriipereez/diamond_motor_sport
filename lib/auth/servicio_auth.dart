@@ -62,10 +62,6 @@ Future<String> obtenerDatosUsuario(String uid) async { print('hola');
     if (snapshot.exists) {
       // Si el documento existe, puedes acceder a todos los campos
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      /*print('Datos del usuario:');
-      data.forEach((key, value) {
-        print('$key: $value');
-      });*/
       return data['nombre'];
     } else {
       return('El documento no existe');

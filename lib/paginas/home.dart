@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
-
 class Home extends StatelessWidget {
   const Home({Key? key});
 
@@ -109,7 +108,7 @@ class Home extends StatelessWidget {
                           child: HoverImageWidget(
                             'assets/image1.jpg',
                             Text(
-                            'Coches Gasolina',
+                              'Coches Gasolina',
                               style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -172,6 +171,8 @@ class Home extends StatelessWidget {
                   ),
                   SizedBox(height: 75.0),
                   ContactForm(),
+                  Divider(),
+                  Footer(),
                 ],
               ),
             ),
@@ -487,18 +488,47 @@ class _ContactFormState extends State<ContactForm> {
             const SizedBox(height: 16.0),
             CustomTextField(controller: _nameController, hintText: 'Nombre'),
             const SizedBox(height: 16.0),
-            CustomTextField(controller: _emailController, hintText: 'Correo Electrónico'),
-             const SizedBox(height: 16.0),
-            CustomTextField(controller: _messageController, hintText: 'Mensaje', maxLines: 3,),
+            CustomTextField(
+                controller: _emailController, hintText: 'Correo Electrónico'),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                print('Enviando formulario...');
-                print('Nombre: ${_nameController.text}');
-                print('Correo Electrónico: ${_emailController.text}');
-                print('Mensaje: ${_messageController.text}');
-              },
-              child: const Text('Enviar'),
+            CustomTextField(
+              controller: _messageController,
+              hintText: 'Mensaje',
+              maxLines: 3,
+            ),
+            const SizedBox(height: 16.0),
+            Center(
+              child: Container(
+                width: 300,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 53, 47, 47), // Color de fondo rojo
+                  borderRadius: BorderRadius.circular(
+                      10), // Bordes más cuadrados con radio de 10
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+              
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Center(
+                        child: Text(
+                          'ENVIAR',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            letterSpacing: 2,
+                            color: Colors.white, // Color de texto blanco
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:diamond_motor_sport/auth/servicio_auth.dart';
+import 'package:diamond_motor_sport/componentes/drawerrouter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,8 +28,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     User? user = _auth.currentUser;
 
-
-
     return PreferredSize(
       preferredSize: preferredSize,
       child: Stack(
@@ -45,6 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Scaffold.of(context).openDrawer();
                   },
                 ),
+                Stack(children: [Title(color: const Color.fromARGB(255, 255, 255, 255), child: Text(titleText, style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)))),], ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
@@ -57,7 +57,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       final RenderBox overlay = Overlay.of(context)!
                           .context
                           .findRenderObject() as RenderBox;
-
                       final Offset offset = Offset(
                         MediaQuery.of(context).size.width - 20,
                         MediaQuery.of(context).padding.top + kToolbarHeight + 8,
@@ -78,30 +77,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
                                   FutureBuilder(
-                                    future: ServicioAuth().obtenerDatosUsuario(user.uid), 
-                                    builder: (context, snapshot) {
-                                      
-                                      if (snapshot.hasError) {
-                                        return const Text("Error");
-                                      }
+                                      future: ServicioAuth()
+                                          .obtenerDatosUsuario(user.uid),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text("Error");
+                                        }
 
-                                      if (snapshot.connectionState == ConnectionState.waiting) {
-                                        return const Text("Cargando datos");
-                                      }
-                                      return Text(
-                                        '¡ Hola ${snapshot.data!} !',
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Color.fromARGB(255, 255, 255, 255),
-                                        ),);
-                                    }
-                                    
-                                  ),
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Text("Cargando datos");
+                                        }
+                                        return Text(
+                                          '¡ Hola ${snapshot.data!} !',
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                          ),
+                                        );
+                                      }),
                                   const SizedBox(height: 16),
                                   ElevatedButton(
                                     onPressed: () {
-                                      Navigator.pop(context); // Cierra el menú emergente
+                                      Navigator.pushReplacementNamed(
+                                          context, DrawerRoutes.Editarperfil);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
@@ -110,10 +111,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     child: const Text(
                                       'Editar Perfil',
                                       style: TextStyle(
-                                          color: Color.fromARGB(
-                                              255,
-                                              255,
-                                              253,
+                                          color: Color.fromARGB(255, 255, 253,
                                               253)), // Cambiado el color del texto
                                     ),
                                   ),
@@ -121,7 +119,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                   ElevatedButton(
                                     onPressed: () {
                                       ServicioAuth().cerrarsesion();
-                                      Navigator.pop(context); // Cierra el menú emergente
+                                      Navigator.pop(
+                                          context); // Cierra el menú emergente
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
@@ -130,10 +129,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     child: const Text(
                                       'Cerrar Sesión',
                                       style: TextStyle(
-                                          color: Color.fromARGB(
-                                              255,
-                                              255,
-                                              255,
+                                          color: Color.fromARGB(255, 255, 255,
                                               255)), // Cambiado el color del texto
                                     ),
                                   ),

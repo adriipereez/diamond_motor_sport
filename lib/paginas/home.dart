@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/customTextField.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:diamond_motor_sport/paginas/gridanuncios.dart';
 import 'package:diamond_motor_sport/paginas/sobrenosotros.dart';
 import 'package:diamond_motor_sport/componentes/footer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
@@ -462,6 +464,7 @@ class _ContactFormState extends State<ContactForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
+  final ServicioAuth servicioAuth = ServicioAuth();
 
   bool _nameClicked = false;
   bool _emailClicked = false;
@@ -501,15 +504,41 @@ class _ContactFormState extends State<ContactForm> {
               child: Container(
                 width: 300,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 53, 47, 47), // Color de fondo rojo
-                  borderRadius: BorderRadius.circular(
-                      10), // Bordes más cuadrados con radio de 10
+                  color: Color.fromARGB(255, 53, 47, 47),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () {
-              
+                    onTap: () async {
+                      String nombre = _nameController.text;
+                      String email = _emailController.text;
+                      String mensaje = _messageController.text;
+
+                      if (nombre.isNotEmpty &&
+                          email.isNotEmpty &&
+                          mensaje.isNotEmpty) {
+                        await servicioAuth.guardarFormulario(
+                            nombre, email, mensaje);
+
+                        // Limpiar los campos después de enviar el formulario
+                        _nameController.clear();
+                        _emailController.clear();
+                        _messageController.clear();
+                      } else {
+                        // Manejar el caso en el que algún campo esté vacío
+                      }
+
+                      // Mostrar el SnackBar si el formulario se envió correctamente
+                      if (servicioAuth.formularioEnviadoCorrectamente) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Formulario enviado correctamente'),
+                          ),
+                        );
+                        servicioAuth.formularioEnviadoCorrectamente =
+                            false; // Reiniciar el estado
+                      }
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(12.0),
@@ -519,7 +548,7 @@ class _ContactFormState extends State<ContactForm> {
                           style: TextStyle(
                             fontStyle: FontStyle.italic,
                             letterSpacing: 2,
-                            color: Colors.white, // Color de texto blanco
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),

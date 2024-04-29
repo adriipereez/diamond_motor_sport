@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+import 'package:diamond_motor_sport/paginas/subir_anuncio.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key});
@@ -87,6 +88,23 @@ class Home extends StatelessWidget {
                           ),
                           child: const Text(
                             'Sobre nosotros',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SubirAnuncio()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: const Text(
+                            'Subir anuncio',
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ),

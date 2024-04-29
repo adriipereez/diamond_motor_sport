@@ -29,6 +29,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/diamante.png
+    - assets/ferrari.jpg
     - assets/12.png
     - assets/image1.jpg
     - assets/image2.jpg
@@ -36,4 +37,6 @@ flutter:
     - assets/image4.jpg
     - assets/main1.jpg
     - assets/mainphoto.jpg
+    - assets/garaje1.jpg
+    - assets/garaje2.jpg
     - assets/mainvideo.mp4

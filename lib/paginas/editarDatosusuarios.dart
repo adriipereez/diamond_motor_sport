@@ -54,119 +54,174 @@ class _EditarDatosUsuarioState extends State<EditarDatosUsuario> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
       drawer: CustomDrawer(),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextField(
-                controller: _nombreUsu,
-                decoration: InputDecoration(
-                  labelText: 'Nombre',
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/c63.jpg'),
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 16.0),
-              TextField(
-                controller: _telefonoUsu,
-                decoration: InputDecoration(
-                  labelText: 'Teléfono',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                controller: _apellidoUsu,
-                decoration: InputDecoration(
-                  labelText: 'Apellido',
-                ),
-              ),
-              SizedBox(height: 50.0),
-              ElevatedButton(
-                  onPressed: () async {
-                    // Obtener los datos actualizados de los campos de texto
-                    String nuevoNombre = _nombreUsu.text;
-                    String nuevoTelefono = _telefonoUsu.text;
-                    String nuevoApellido = _apellidoUsu.text;
-
-                    try {
-                      // Obtener el ID del usuario actual
-                      String uid = ServicioAuth().getUsuarioActual()!.uid;
-
-                      // Actualizar los datos en la colección de usuarios
-                      await FirebaseFirestore.instance
-                          .collection("Usuarios")
-                          .doc(uid)
-                          .update({
-                        "nombre": nuevoNombre,
-                        "telefono": nuevoTelefono,
-                        "apellido": nuevoApellido,
-                      });
-
-                      // Mostrar un diálogo indicando que se guardaron los datos correctamente
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Datos actualizados"),
-                            content: Text(
-                                "Se han guardado los cambios correctamente."),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("Aceptar"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } catch (error) {
-                      // Mostrar un diálogo indicando que ocurrió un error al guardar los datos
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Error"),
-                            content: Text(
-                                "Ocurrió un error al guardar los datos: $error"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("Aceptar"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    onPrimary: Colors.white,
-                    elevation: 1,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    minimumSize: Size(15,
-                        10), // Ajusta el tamaño mínimo del botón (ancho x alto)
+            ),
+            Center(
+              child: Container(
+                width: 600,
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(180, 0, 0, 0),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Color.fromARGB(122, 255, 255, 255),
+                    width: 10,
                   ),
-                  child: const Text(
-                    'Guardar datos',
-                    style: TextStyle(
-                      color: Colors.black,
-                      height: 5,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Text(
+                        'Editar perfil',
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  )),
-            ],
-          ),
+                    TextField(
+                      controller: _nombreUsu,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 0, 255, 8),
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Nombre',
+                        labelStyle: TextStyle(color: Colors.white),
+                        fillColor: Color.fromARGB(200, 22, 21, 21),
+                        filled: true,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextField(
+                      controller: _apellidoUsu,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 0, 255, 8),
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Apellido',
+                        labelStyle: TextStyle(color: Colors.white),
+                        fillColor: Color.fromARGB(200, 22, 21, 21),
+                        filled: true,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextField(
+                      controller: _telefonoUsu,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 0, 255, 8),
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Teléfono',
+                        labelStyle: TextStyle(color: Colors.white),
+                        fillColor: Color.fromARGB(200, 22, 21, 21),
+                        filled: true,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 40.0),
+                    ElevatedButton(
+                      onPressed: () async {
+                        String nuevoNombre = _nombreUsu.text;
+                        String nuevoTelefono = _telefonoUsu.text;
+                        String nuevoApellido = _apellidoUsu.text;
+
+                        try {
+                          String uid = ServicioAuth().getUsuarioActual()!.uid;
+
+                          await FirebaseFirestore.instance
+                              .collection("Usuarios")
+                              .doc(uid)
+                              .update({
+                            "nombre": nuevoNombre,
+                            "telefono": nuevoTelefono,
+                            "apellido": nuevoApellido,
+                          });
+
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Datos actualizados"),
+                                content: const Text(
+                                    "Se han guardado los cambios correctamente."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("Aceptar"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } catch (error) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Error"),
+                                content: Text(
+                                    "Ocurrió un error al guardar los datos: $error"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("Aceptar"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 30, 255, 1),
+                        onPrimary: Colors.white,
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        minimumSize: const Size(15, 10),
+                      ),
+                      child: const Text(
+                        'Guardar datos',
+                        style: TextStyle(
+                          color: Colors.black,
+                          height: 3,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      )),
+      ),
     );
   }
 }

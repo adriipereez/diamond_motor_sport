@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
+import 'package:diamond_motor_sport/componentes/drawerrouter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -139,81 +140,146 @@ class _EditarDatosUsuarioState extends State<EditarDatosUsuario> {
                       ),
                     ),
                     const SizedBox(height: 40.0),
-                    ElevatedButton(
-                      onPressed: () async {
-                        String nuevoNombre = _nombreUsu.text;
-                        String nuevoTelefono = _telefonoUsu.text;
-                        String nuevoApellido = _apellidoUsu.text;
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            String nuevoNombre = _nombreUsu.text;
+                            String nuevoTelefono = _telefonoUsu.text;
+                            String nuevoApellido = _apellidoUsu.text;
 
-                        try {
-                          String uid = ServicioAuth().getUsuarioActual()!.uid;
+                            try {
+                              String uid =
+                                  ServicioAuth().getUsuarioActual()!.uid;
 
-                          await FirebaseFirestore.instance
-                              .collection("Usuarios")
-                              .doc(uid)
-                              .update({
-                            "nombre": nuevoNombre,
-                            "telefono": nuevoTelefono,
-                            "apellido": nuevoApellido,
-                          });
+                              await FirebaseFirestore.instance
+                                  .collection("Usuarios")
+                                  .doc(uid)
+                                  .update({
+                                "nombre": nuevoNombre,
+                                "telefono": nuevoTelefono,
+                                "apellido": nuevoApellido,
+                              });
 
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("Datos actualizados"),
-                                content: const Text(
-                                    "Se han guardado los cambios correctamente."),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text("Aceptar"),
-                                  ),
-                                ],
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Datos actualizados"),
+                                    content: const Text(
+                                        "Se han guardado los cambios correctamente."),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("Aceptar"),
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
-                            },
-                          );
-                        } catch (error) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("Error"),
-                                content: Text(
-                                    "Ocurrió un error al guardar los datos: $error"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text("Aceptar"),
-                                  ),
-                                ],
+                            } catch (error) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Error"),
+                                    content: Text(
+                                        "Ocurrió un error al guardar los datos: $error"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("Aceptar"),
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
-                            },
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 30, 255, 1),
-                        onPrimary: Colors.white,
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 30, 255, 1),
+                            onPrimary: Colors.white,
+                            elevation: 1,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            minimumSize: const Size(15, 10),
+                          ),
+                          child: const Text(
+                            'Guardar datos',
+                            style: TextStyle(
+                              color: Colors.black,
+                              height: 3,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
-                        minimumSize: const Size(15, 10),
-                      ),
-                      child: const Text(
-                        'Guardar datos',
-                        style: TextStyle(
-                          color: Colors.black,
-                          height: 3,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                        const SizedBox(
+                          width: 50,
                         ),
-                      ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            try {
+                              await ServicioAuth().deleteAccount();
+                              Navigator.pushReplacementNamed(
+                                  context, DrawerRoutes.principal1);
+                              // Mostrar SnackBar de "Cuenta eliminada correctamente"
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Cuenta eliminada correctamente'),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 76, 175, 80),
+                                  duration: const Duration(seconds: 3),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                ),
+                              );
+                            } catch (e) {
+                              // Mostrar SnackBar de error
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Error al eliminar la cuenta: $e'),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 255, 22, 5),
+                                  duration: const Duration(seconds: 3),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color.fromARGB(255, 250, 28, 28),
+                            onPrimary: Colors.white,
+                            elevation: 1,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            minimumSize: const Size(15, 10),
+                          ),
+                          child: const Text(
+                            'Eliminar cuenta',
+                            style: TextStyle(
+                              color: Colors.black,
+                              height: 3,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

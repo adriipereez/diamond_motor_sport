@@ -116,17 +116,45 @@ class ServicioAuth {
   }
 
   Future<bool> esUsuarioAdmin(String uid) async {
-  try {
-    DocumentSnapshot snapshot = await _firestore.collection('Usuarios').doc(uid).get();
-    if (snapshot.exists) {
-      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-      if (data != null && data.containsKey('admin')) {
-        return data['admin'] ?? false;
+    try {
+      DocumentSnapshot snapshot =
+          await _firestore.collection('Usuarios').doc(uid).get();
+      if (snapshot.exists) {
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+        if (data != null && data.containsKey('admin')) {
+          return data['admin'] ?? false;
+        }
       }
+      return false; // Si el campo 'admin' no existe, asumir que el usuario no es administrador
+    } catch (error) {
+      throw Exception(
+          'Error al verificar si el usuario es administrador: $error');
     }
-    return false; // Si el campo 'admin' no existe, asumir que el usuario no es administrador
-  } catch (error) {
-    throw Exception('Error al verificar si el usuario es administrador: $error');
+  }
+
+  Future<void> deleteAccount() async {
+  try {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      await currentUser.delete();
+
+      await FirebaseFirestore.instance.collection('Usuarios').doc(currentUser.uid).delete();
+
+      formularioEnviadoCorrectamente = true;
+    } else {
+      throw Exception('No se pudo obtener el usuario actual');
+    }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'requires-recent-login') {
+
+      throw Exception('Debes volver a iniciar sesión recientemente para eliminar la cuenta');
+    } else {
+      throw Exception('Error al eliminar la cuenta: $e');
+    }
+  } catch (e) {
+    throw Exception('Error al eliminar la cuenta: $e');
   }
 }
+
 }

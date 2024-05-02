@@ -1,23 +1,20 @@
-import 'dart:developer';
-
 import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/drawerrouter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:diamond_motor_sport/paginas/home.dart'; // No necesitas importar dos veces home.dart
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleText;
   final String additionalTitle;
-  final bool
-      showBottomLine; // Nuevo parámetro para controlar la visibilidad de la línea
+  final bool showBottomLine;
 
   const CustomAppBar({
     Key? key,
     this.titleText = "",
     this.additionalTitle = "DIAMOND MOTOR SPORT",
-    this.showBottomLine =
-        true, // Valor por defecto es true para mostrar la línea
+    this.showBottomLine = true,
   }) : super(key: key);
 
   @override
@@ -44,11 +41,27 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Scaffold.of(context).openDrawer();
                   },
                 ),
-                Stack(children: [Title(color: const Color.fromARGB(255, 255, 255, 255), child: Text(titleText, style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)))),], ),
+                Stack(
+                  children: [
+                    Title(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Text(
+                        titleText,
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                    ),
+                  ],
+                ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Image.asset('assets/pp.png', height: 45),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, DrawerRoutes.principal1);
+                      },
+                      child: Image.asset('assets/pp.png', height: 45),
+                    ),
                   ),
                 ),
                 if (user != null)
@@ -70,34 +83,35 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         items: <PopupMenuEntry>[
                           PopupMenuItem(
                             child: Container(
-                              color: Colors.black, // Cambiado a negro
+                              color: Colors.black,
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
                                   FutureBuilder(
-                                      future: ServicioAuth()
-                                          .obtenerDatosUsuario(user.uid),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasError) {
-                                          return const Text("Error");
-                                        }
+                                    future: ServicioAuth()
+                                        .obtenerDatosUsuario(user.uid),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return const Text("Error");
+                                      }
 
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const Text("Cargando datos");
-                                        }
-                                        return Text(
-                                          '¡ Hola ${snapshot.data!} !',
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                          ),
-                                        );
-                                      }),
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Text("Cargando datos");
+                                      }
+                                      return Text(
+                                        '¡ Hola ${snapshot.data!} !',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   const SizedBox(height: 16),
                                   ElevatedButton(
                                     onPressed: () {
@@ -107,20 +121,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           const Color.fromARGB(255, 63, 32, 32),
-                                    ), // Cambiado el color del botón
+                                    ),
                                     child: const Text(
                                       'Editar Perfil',
                                       style: TextStyle(
-                                          color: Color.fromARGB(255, 255, 253,
-                                              253)), // Cambiado el color del texto
+                                          color: Color.fromARGB(
+                                              255, 255, 253, 253)),
                                     ),
                                   ),
                                   const SizedBox(height: 8),
                                   ElevatedButton(
                                     onPressed: () {
                                       ServicioAuth().cerrarsesion();
-                                      Navigator.pop(
-                                          context); // Cierra el menú emergente
+                                      Navigator.pop(context);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
@@ -129,8 +142,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     child: const Text(
                                       'Cerrar Sesión',
                                       style: TextStyle(
-                                          color: Color.fromARGB(255, 255, 255,
-                                              255)), // Cambiado el color del texto
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
                                     ),
                                   ),
                                 ],

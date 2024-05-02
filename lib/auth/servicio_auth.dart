@@ -5,6 +5,7 @@ class ServicioAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool formularioEnviadoCorrectamente = false;
+  bool anuncioEnviadoCorrectamente = false;
 
   Future<UserCredential> loginConEmailPassword(
       String email, String password) async {
@@ -115,18 +116,40 @@ class ServicioAuth {
     }
   }
 
-  Future<bool> esUsuarioAdmin(String uid) async {
-  try {
-    DocumentSnapshot snapshot = await _firestore.collection('Usuarios').doc(uid).get();
-    if (snapshot.exists) {
-      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-      if (data != null && data.containsKey('admin')) {
-        return data['admin'] ?? false;
-      }
+  Future<void> guardarAnuncio(
+      String marca, String modelo, int km, int any, String descripcion, String tipoCoche, String tipoCombustible) async {
+    try {
+      await _firestore.collection('Anuncios').add({
+        'marca': marca,
+        'modelo': modelo,
+        'km': km,
+        'any': any,
+        'descripcion': descripcion,
+        'tipoCoche':tipoCoche,
+        'tipoCombustible':tipoCombustible,
+      });
+      // Establecer la variable anuncioEnviadoCorrectamente después de la operación add
+      anuncioEnviadoCorrectamente = true;
+    } catch (e) {
+      // Manejar cualquier excepción lanzada durante la operación add
+      throw Exception('Error al guardar el anuncio: $e');
     }
-    return false; // Si el campo 'admin' no existe, asumir que el usuario no es administrador
-  } catch (error) {
-    throw Exception('Error al verificar si el usuario es administrador: $error');
   }
-}
+
+  Future<bool> esUsuarioAdmin(String uid) async {
+    try {
+      DocumentSnapshot snapshot =
+          await _firestore.collection('Usuarios').doc(uid).get();
+      if (snapshot.exists) {
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+        if (data != null && data.containsKey('admin')) {
+          return data['admin'] ?? false;
+        }
+      }
+      return false; // Si el campo 'admin' no existe, asumir que el usuario no es administrador
+    } catch (error) {
+      throw Exception(
+          'Error al verificar si el usuario es administrador: $error');
+    }
+  }
 }

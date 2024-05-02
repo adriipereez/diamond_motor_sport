@@ -152,4 +152,28 @@ class ServicioAuth {
           'Error al verificar si el usuario es administrador: $error');
     }
   }
+
+  Future<void> deleteAccount() async {
+  try {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      await currentUser.delete();
+
+      await FirebaseFirestore.instance.collection('Usuarios').doc(currentUser.uid).delete();
+
+      formularioEnviadoCorrectamente = true;
+    } else {
+      throw Exception('No se pudo obtener el usuario actual');
+    }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'requires-recent-login') {
+
+      throw Exception('Debes volver a iniciar sesión recientemente para eliminar la cuenta');
+    } else {
+      throw Exception('Error al eliminar la cuenta: $e');
+    }
+  } catch (e) {
+    throw Exception('Error al eliminar la cuenta: $e');
+  }
 }

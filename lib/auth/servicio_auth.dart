@@ -177,3 +177,4 @@ class ServicioAuth {
     throw Exception('Error al eliminar la cuenta: $e');
   }
 }
+}

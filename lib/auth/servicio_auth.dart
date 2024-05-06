@@ -5,6 +5,7 @@ class ServicioAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool formularioEnviadoCorrectamente = false;
+  bool anuncioEnviadoCorrectamente = false;
 
   Future<UserCredential> loginConEmailPassword(
       String email, String password) async {
@@ -115,6 +116,26 @@ class ServicioAuth {
     }
   }
 
+  Future<void> guardarAnuncio(
+      String marca, String modelo, int km, int any, String descripcion, String tipoCoche, String tipoCombustible) async {
+    try {
+      await _firestore.collection('Anuncios').add({
+        'marca': marca,
+        'modelo': modelo,
+        'km': km,
+        'any': any,
+        'descripcion': descripcion,
+        'tipoCoche':tipoCoche,
+        'tipoCombustible':tipoCombustible,
+      });
+      // Establecer la variable anuncioEnviadoCorrectamente después de la operación add
+      anuncioEnviadoCorrectamente = true;
+    } catch (e) {
+      // Manejar cualquier excepción lanzada durante la operación add
+      throw Exception('Error al guardar el anuncio: $e');
+    }
+  }
+
   Future<bool> esUsuarioAdmin(String uid) async {
     try {
       DocumentSnapshot snapshot =
@@ -155,6 +176,4 @@ class ServicioAuth {
   } catch (e) {
     throw Exception('Error al eliminar la cuenta: $e');
   }
-}
-
 }

@@ -22,6 +22,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: const CustomAppBar(
         showBottomLine: true,
       ),

@@ -32,7 +32,7 @@ class SobreNosotros extends StatelessWidget {
                             height: 400,
                             fit: BoxFit.cover,
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Image.asset(
                             'assets/garaje2.jpg',
                             width: constraints.maxWidth * 0.6,
@@ -41,7 +41,7 @@ class SobreNosotros extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,15 +62,20 @@ class SobreNosotros extends StatelessWidget {
                         height: 200,
                         fit: BoxFit.cover,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Image.asset(
                         'assets/garaje2.jpg',
                         width: constraints.maxWidth,
                         height: 200,
                         fit: BoxFit.cover,
                       ),
-                      SizedBox(height: 20),
-                      ..._buildTexts(),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+                        child: Column(
+                          children: _buildTexts(),
+                        ),
+                      ),
                     ],
                   );
                 }
@@ -84,8 +89,8 @@ class SobreNosotros extends StatelessWidget {
 
   List<Widget> _buildTexts() {
     return [
-      Container(
-        margin: const EdgeInsets.only(bottom: 20),
+      const Padding(
+        padding: EdgeInsets.only(bottom: 20), // Ajusta el espacio inferior
         child: Text(
           'Bienvenido a Diamond Motor Sport',
           style: TextStyle(
@@ -95,20 +100,18 @@ class SobreNosotros extends StatelessWidget {
           ),
         ),
       ),
-      SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 20),
-          child: Text(
-            'Diamond Motor Sport es una plataforma de compra y venta de vehículos de motor. Permitimos a los usuarios vender sus vehículos a otros usuarios interesados, proporcionando una amplia gama de opciones y un servicio excepcional. Nuestra misión es proporcionar una plataforma confiable y conveniente para que los entusiastas y profesionales puedan comprar y vender vehículos de motor de manera segura y eficiente, asegurando la satisfacción del cliente en todo momento.',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
+      const Padding(
+        padding: EdgeInsets.only(bottom: 20), // Ajusta el espacio inferior
+        child: Text(
+          'Diamond Motor Sport es una plataforma de compra y venta de vehículos de motor. Permitimos a los usuarios vender sus vehículos a otros usuarios interesados, proporcionando una amplia gama de opciones y un servicio excepcional. Nuestra misión es proporcionar una plataforma confiable y conveniente para que los entusiastas y profesionales puedan comprar y vender vehículos de motor de manera segura y eficiente, asegurando la satisfacción del cliente en todo momento.',
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
           ),
         ),
       ),
-      SizedBox(height: 20),
-      Text(
+      const SizedBox(height: 20),
+      const Text(
         '¿Quieres comprarte el coche de tus sueños?',
         style: TextStyle(
           fontSize: 22,
@@ -116,22 +119,22 @@ class SobreNosotros extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      Text(
+      const Text(
         'Sabemos que lo estás buscando, en nuestra web te ofrecemos la posibilidad de hacer tus sueños realidad, para que dejes de pensar en ello y te lances.',
         style: TextStyle(
           fontSize: 18,
           color: Colors.white,
         ),
       ),
-      Text(
+      const Text(
         'Esa es una de las razones por las que estamos aquí, queremos que cumplas tus sueños y lo hagas de la mejor forma.',
         style: TextStyle(
           fontSize: 18,
           color: Colors.white,
         ),
       ),
-      SizedBox(height: 20),
-      Text(
+      const SizedBox(height: 20),
+      const Text(
         '¿O estás buscando vender tu coche?',
         style: TextStyle(
           fontSize: 22,
@@ -139,7 +142,7 @@ class SobreNosotros extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      Text(
+      const Text(
         'No te preocupes, tenemos la red de compra venta más activa, sube, queda, vende, y en ese momento puedes volver a entrar para elevar el nivel y comprar el siguiente coche de tus sueños.',
         style: TextStyle(
           fontSize: 18,

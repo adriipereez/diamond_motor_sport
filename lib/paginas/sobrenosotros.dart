@@ -11,7 +11,7 @@ class SobreNosotros extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
-      drawer: const CustomDrawer(),
+      drawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(

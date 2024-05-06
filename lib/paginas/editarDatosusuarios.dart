@@ -79,7 +79,7 @@ class _EditarDatosUsuarioState extends State<EditarDatosUsuario> {
                   color: const Color.fromARGB(180, 0, 0, 0),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Color.fromARGB(122, 255, 255, 255),
+                    color: const Color.fromARGB(122, 255, 255, 255),
                     width: 10,
                   ),
                 ),
@@ -233,7 +233,7 @@ class _EditarDatosUsuarioState extends State<EditarDatosUsuario> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content:
-                                      Text('Cuenta eliminada correctamente'),
+                                      const Text('Cuenta eliminada correctamente'),
                                   backgroundColor:
                                       const Color.fromARGB(255, 76, 175, 80),
                                   duration: const Duration(seconds: 3),

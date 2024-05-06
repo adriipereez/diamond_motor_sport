@@ -34,7 +34,7 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
       appBar: const CustomAppBar(
         titleText: "Subir Anuncio",
       ),
-      drawer: const CustomDrawer(),
+      drawer:  CustomDrawer(),
       body: Stack(
         children: [
           Container(

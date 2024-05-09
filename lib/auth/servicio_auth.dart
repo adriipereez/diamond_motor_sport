@@ -73,7 +73,6 @@ class ServicioAuth {
     }
   }
 
-  //hacer logout
   Future<void> cerrarsesion() async {
     return await _auth.signOut();
   }
@@ -84,13 +83,12 @@ class ServicioAuth {
 
   Future<String> obtenerDatosUsuario(String uid) async {
     try {
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
       DocumentSnapshot snapshot =
-          await firestore.collection('Usuarios').doc(uid).get();
+          await _firestore.collection('Usuarios').doc(uid).get();
 
       if (snapshot.exists) {
-        // Si el documento existe, puedes acceder a todos los campos
-        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> data =
+            snapshot.data() as Map<String, dynamic>;
         return data['nombre'];
       } else {
         return ('El documento no existe');
@@ -109,8 +107,7 @@ class ServicioAuth {
         'mensaje': mensaje,
         'timestamp': FieldValue.serverTimestamp(),
       });
-      formularioEnviadoCorrectamente =
-          true; // Marcar como enviado correctamente
+      formularioEnviadoCorrectamente = true;
     } catch (e) {
       throw Exception('Error al guardar el formulario: $e');
     }
@@ -128,10 +125,8 @@ class ServicioAuth {
         'tipoCoche':tipoCoche,
         'tipoCombustible':tipoCombustible,
       });
-      // Establecer la variable anuncioEnviadoCorrectamente después de la operación add
       anuncioEnviadoCorrectamente = true;
     } catch (e) {
-      // Manejar cualquier excepción lanzada durante la operación add
       throw Exception('Error al guardar el anuncio: $e');
     }
   }
@@ -141,12 +136,13 @@ class ServicioAuth {
       DocumentSnapshot snapshot =
           await _firestore.collection('Usuarios').doc(uid).get();
       if (snapshot.exists) {
-        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+        Map<String, dynamic>? data =
+            snapshot.data() as Map<String, dynamic>?;
         if (data != null && data.containsKey('admin')) {
           return data['admin'] ?? false;
         }
       }
-      return false; // Si el campo 'admin' no existe, asumir que el usuario no es administrador
+      return false;
     } catch (error) {
       throw Exception(
           'Error al verificar si el usuario es administrador: $error');
@@ -154,26 +150,35 @@ class ServicioAuth {
   }
 
   Future<void> deleteAccount() async {
-  try {
-    User? currentUser = FirebaseAuth.instance.currentUser;
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
 
-    if (currentUser != null) {
-      await currentUser.delete();
+      if (currentUser != null) {
+        await currentUser.delete();
 
-      await FirebaseFirestore.instance.collection('Usuarios').doc(currentUser.uid).delete();
+        await FirebaseFirestore.instance.collection('Usuarios').doc(currentUser.uid).delete();
 
-      formularioEnviadoCorrectamente = true;
-    } else {
-      throw Exception('No se pudo obtener el usuario actual');
-    }
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'requires-recent-login') {
-
-      throw Exception('Debes volver a iniciar sesión recientemente para eliminar la cuenta');
-    } else {
+        formularioEnviadoCorrectamente = true;
+      } else {
+        throw Exception('No se pudo obtener el usuario actual');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        throw Exception('Debes volver a iniciar sesión recientemente para eliminar la cuenta');
+      } else {
+        throw Exception('Error al eliminar la cuenta: $e');
+      }
+    } catch (e) {
       throw Exception('Error al eliminar la cuenta: $e');
     }
-  } catch (e) {
-    throw Exception('Error al eliminar la cuenta: $e');
+  }
+
+  Future<List<Map<String, dynamic>>> obtenerAnuncios() async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore.collection('Anuncios').get();
+      return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    } catch (e) {
+      throw Exception('Error al obtener los anuncios: $e');
+    }
   }
 }

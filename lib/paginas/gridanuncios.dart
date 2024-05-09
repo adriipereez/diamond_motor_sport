@@ -1,9 +1,11 @@
+import 'package:diamond_motor_sport/auth/servicio_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
-import 'package:flutter/material.dart';
+import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 
 class GridAnuncios extends StatelessWidget {
-  const GridAnuncios({Key? key}) : super(key: key);
+  final ServicioAuth servicioAuth = ServicioAuth();
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +13,23 @@ class GridAnuncios extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: const CustomAppBar(),
       drawer: CustomDrawer(),
-      body: const Column(
+      body: Column(
         children: [
           FilterBanner(),
           Expanded(
-            child: CarAdsGrid(),
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: servicioAuth.obtenerAnuncios(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  List<Map<String, dynamic>> anuncios = snapshot.data ?? [];
+                  return CarAdsGrid(anuncios: anuncios);
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -272,7 +286,9 @@ class _FilterBannerState extends State<FilterBanner> {
 }
 
 class CarAdsGrid extends StatelessWidget {
-  const CarAdsGrid({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> anuncios;
+
+  const CarAdsGrid({Key? key, required this.anuncios}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -289,20 +305,13 @@ class CarAdsGrid extends StatelessWidget {
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
             ),
-            itemCount: 8,
+            itemCount: anuncios.length,
             itemBuilder: (BuildContext context, int index) {
-              // Simulando datos únicos para cada anuncio
-              final carMake = '$index';
-              final carModel = '$index';
-              final carYear = '${index % 10}';
-              final carMileage = 'Km';
-              final carFuelType = index % 4 == 0
-                  ? 'Gasolina'
-                  : index % 4 == 1
-                      ? 'Diesel'
-                      : index % 4 == 2
-                          ? 'Eléctrico'
-                          : 'Híbrido';
+              final carMake = anuncios[index]['marca'] as String;
+              final carModel = anuncios[index]['modelo'] as String;
+              final carYear = anuncios[index]['any'].toString();
+              final carMileage = anuncios[index]['km'].toString();
+              final carFuelType = anuncios[index]['tipoCombustible'] as String;
 
               return GestureDetector(
                 onTap: () {},

@@ -40,11 +40,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
         child: Container(
           child: Column(
             children: [
-              DrawerHeader(
-                child: Image.asset(
-                  'assets/pp.png',
-                  width: 250,
-                  height: 250,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                      context, DrawerRoutes.principal1);
+                },
+                child: DrawerHeader(
+                  child: Image.asset(
+                    'assets/pp.png',
+                    width: 250,
+                    height: 250,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -53,7 +59,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: const Icon(Icons.home, color: Color.fromARGB(255, 255, 0, 0)),
+                      leading: const Icon(Icons.home,
+                          color: Color.fromARGB(255, 255, 0, 0)),
                       title: const Text("Página principal",
                           style: TextStyle(color: Colors.white)),
                       onTap: () {
@@ -62,7 +69,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.post_add, color: Color.fromARGB(255, 255, 0, 0)),
+                      leading: const Icon(Icons.post_add,
+                          color: Color.fromARGB(255, 255, 0, 0)),
                       title: const Text("Vehiculos",
                           style: TextStyle(color: Colors.white)),
                       onTap: () {
@@ -71,7 +79,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.info_outline, color: Color.fromARGB(255, 255, 0, 0)),
+                      leading: const Icon(Icons.info_outline,
+                          color: Color.fromARGB(255, 255, 0, 0)),
                       title: const Text("Sobre nosotros",
                           style: TextStyle(color: Colors.white)),
                       onTap: () {
@@ -82,7 +91,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     user == null
                         ? const SizedBox.shrink()
                         : ListTile(
-                            leading: const Icon(Icons.chat, color: Color.fromARGB(255, 255, 0, 0)),
+                            leading: const Icon(Icons.chat,
+                                color: Color.fromARGB(255, 255, 0, 0)),
                             title: const Text("Chats",
                                 style: TextStyle(color: Colors.white)),
                             onTap: () {
@@ -96,7 +106,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     user != null
                         ? const SizedBox.shrink()
                         : ListTile(
-                            leading: const Icon(Icons.login, color: Color.fromARGB(255, 255, 0, 0)),
+                            leading: const Icon(Icons.login,
+                                color: Color.fromARGB(255, 255, 0, 0)),
                             title: const Text("Login o Registro",
                                 style: TextStyle(color: Colors.white)),
                             onTap: () {
@@ -109,7 +120,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         leading: const Icon(Icons.admin_panel_settings,
                             color: Color.fromARGB(255, 0, 255, 42)),
                         title: const Text("Panel de administración",
-                            style: TextStyle(color: Color.fromARGB(255, 0, 255, 42))),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 255, 42))),
                         onTap: () {
                           // Navegar a la pantalla de administración
                           Navigator.pushReplacementNamed(

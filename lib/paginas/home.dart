@@ -3,6 +3,7 @@ import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/customTextField.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
+import 'package:diamond_motor_sport/componentes/drawerrouter.dart';
 import 'package:diamond_motor_sport/paginas/gridanuncios.dart';
 import 'package:diamond_motor_sport/paginas/sobrenosotros.dart';
 import 'package:diamond_motor_sport/componentes/footer.dart';
@@ -62,7 +63,7 @@ class Home extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const GridAnuncios(),
+                                builder: (context) => GridAnuncios(),
                               ),
                             );
                           },
@@ -267,7 +268,10 @@ class HoverImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(
+            context, DrawerRoutes.gridAnuncios1);
+      },
       child: SizedBox(
         width: double.infinity,
         height: 300.0,

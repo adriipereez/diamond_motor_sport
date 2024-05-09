@@ -221,6 +221,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
+    print("prueba video");
     _controller = VideoPlayerController.asset(widget.videoPath)
       ..initialize().then((_) {
         _controller.play();

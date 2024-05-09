@@ -31,7 +31,7 @@ class DrawerRoutes {
       case chats:
         return MaterialPageRoute(builder: (_) => const PaginaChat(emailConQuienhablamos: '', idReceptor: '',));
       case gridAnuncios1:
-        return MaterialPageRoute(builder: (_) => const GridAnuncios());
+        return MaterialPageRoute(builder: (_) => GridAnuncios());
       case sobreNosotros1:
         return MaterialPageRoute(builder: (_) => const SobreNosotros());
       case Listachats2:

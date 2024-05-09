@@ -3,6 +3,9 @@ import 'dart:js';
 
 import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/chat/servicio_caht.dart';
+import 'package:diamond_motor_sport/componentes/customappbar.dart';
+import 'package:diamond_motor_sport/componentes/customdrawer.dart';
+import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/item_usuario.dart';
 import 'package:diamond_motor_sport/paginas/Chat.dart';
 import 'package:flutter/material.dart';
@@ -15,17 +18,13 @@ final ServicioChat _servicioChat = ServicioChat();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Pagina Incio"),
-        actions: [
-          IconButton(
-            onPressed: (){
-              ServicioAuth().cerrarsesion();
-            },
-           icon: const Icon(Icons.logout)
-           ),
-        ],
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: const CustomAppBar(
+        showBottomLine: true,
       ),
+      drawer: CustomDrawer(),
+      backgroundColor: Colors.black,
       body: _construirListaDeUsuarios(),
     );
   }

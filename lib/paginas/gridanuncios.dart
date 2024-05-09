@@ -1,3 +1,5 @@
+import 'package:diamond_motor_sport/componentes/customappbar.dart';
+import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:flutter/material.dart';
 
 class GridAnuncios extends StatelessWidget {
@@ -7,10 +9,8 @@ class GridAnuncios extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text('Coches', style: TextStyle(color: Colors.white)),
-      ),
+      appBar: const CustomAppBar(),
+      drawer: CustomDrawer(),
       body: const Column(
         children: [
           FilterBanner(),
@@ -389,11 +389,4 @@ class CarAdWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: GridAnuncios(),
-  ));
 }

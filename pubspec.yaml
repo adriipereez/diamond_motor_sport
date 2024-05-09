@@ -15,6 +15,7 @@ dependencies:
   firebase_core: ^2.26.0
   firebase_auth: ^4.17.7
   cloud_firestore: ^4.15.7
+  image_picker: ^1.0.8
 
 dev_dependencies:
   flutter_test:
@@ -29,6 +30,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/diamante.png
+    - assets/ferrari.jpg
     - assets/12.png
     - assets/image1.jpg
     - assets/image2.jpg
@@ -36,8 +38,11 @@ flutter:
     - assets/image4.jpg
     - assets/main1.jpg
     - assets/mainphoto.jpg
+    - assets/garaje1.jpg
+    - assets/garaje2.jpg
     - assets/mainvideo.mp4
     - assets/yt.png
     - assets/i.png
     - assets/f.png
     - assets/pp.png
+    - assets/c63.jpg

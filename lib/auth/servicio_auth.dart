@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -113,10 +115,10 @@ class ServicioAuth {
     }
   }
 
-  Future<void> guardarAnuncio(
+  Future<String> guardarAnuncio(
       String marca, String modelo, int km, int any, String descripcion, String tipoCoche, String tipoCombustible) async {
     try {
-      await _firestore.collection('Anuncios').add({
+      DocumentReference docRed = await _firestore.collection('Anuncios').add({
         'marca': marca,
         'modelo': modelo,
         'km': km,
@@ -126,10 +128,13 @@ class ServicioAuth {
         'tipoCombustible':tipoCombustible,
       });
       anuncioEnviadoCorrectamente = true;
+      return docRed.id;
     } catch (e) {
       throw Exception('Error al guardar el anuncio: $e');
     }
   }
+
+
 
   Future<bool> esUsuarioAdmin(String uid) async {
     try {

@@ -1,10 +1,11 @@
 import 'package:diamond_motor_sport/auth/portal_auth.dart';
-import 'package:diamond_motor_sport/paginas/SobreNosotrosYContacto.dart';
+import 'package:diamond_motor_sport/paginas/sobrenosotros.dart';
 import 'package:diamond_motor_sport/paginas/editarDatosusuarios.dart';
 import 'package:diamond_motor_sport/paginas/gridanuncios.dart';
 import 'package:diamond_motor_sport/paginas/home.dart';
 import 'package:diamond_motor_sport/paginas/chat.dart';
 import 'package:diamond_motor_sport/paginas/listaChats.dart';
+import 'package:diamond_motor_sport/paginas/sobrenosotros.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/auth/login_o_registro.dart';
 import 'package:diamond_motor_sport/paginas/mensajesForm.dart';
@@ -33,7 +34,7 @@ class DrawerRoutes {
       case gridAnuncios1:
         return MaterialPageRoute(builder: (_) => GridAnuncios());
       case sobreNosotros1:
-        return MaterialPageRoute(builder: (_) => const SobreNosotros());
+        return MaterialPageRoute(builder: (_) => SobreNosotros());
       case Listachats2:
         return MaterialPageRoute(builder: (_) => Listachats());
       case mensajesform:

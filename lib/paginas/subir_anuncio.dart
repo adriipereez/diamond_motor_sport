@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
@@ -416,56 +417,74 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () async {
-                                      String marca = _marcaController.text;
-                                      String modelo = _modeloController.text;
-                                      int km =
-                                          int.tryParse(_kmController.text) ?? 0;
-                                      int anyo =
-                                          int.tryParse(_anyController.text) ??
-                                              0;
-                                      String descripcion =
-                                          _descripcionController.text;
+                                      // Obtener el UID del usuario actualmente autenticado
+                                      String? uid = FirebaseAuth
+                                          .instance.currentUser?.uid;
 
-                                      if (marca.isNotEmpty &&
-                                          modelo.isNotEmpty &&
-                                          km > 0 &&
-                                          anyo > 0 &&
-                                          descripcion.isNotEmpty &&
-                                          _selectedTipoDeCoche != null &&
-                                          _selectedFuelType != null) {
-                                        await servicioAuth.guardarAnuncio(
-                                          marca,
-                                          modelo,
-                                          km,
-                                          anyo,
-                                          descripcion,
-                                          _selectedTipoDeCoche!,
-                                          _selectedFuelType!,
-                                        );
+                                      if (uid != null) {
+                                        String marca = _marcaController.text;
+                                        String modelo = _modeloController.text;
+                                        int km =
+                                            int.tryParse(_kmController.text) ??
+                                                0;
+                                        int anyo =
+                                            int.tryParse(_anyController.text) ??
+                                                0;
+                                        String descripcion =
+                                            _descripcionController.text;
 
-                                        _marcaController.clear();
-                                        _modeloController.clear();
-                                        _kmController.clear();
-                                        _anyController.clear();
-                                        _descripcionController.clear();
-                                        _selectedTipoDeCoche = '';
-                                        _selectedFuelType = '';
+                                        if (marca.isNotEmpty &&
+                                            modelo.isNotEmpty &&
+                                            km > 0 &&
+                                            anyo > 0 &&
+                                            descripcion.isNotEmpty &&
+                                            _selectedTipoDeCoche != null &&
+                                            _selectedFuelType != null) {
+                                          await servicioAuth.guardarAnuncio(
+                                            uid, // Pasar el UID del usuario
+                                            marca,
+                                            modelo,
+                                            km,
+                                            anyo,
+                                            descripcion,
+                                            _selectedTipoDeCoche!,
+                                            _selectedFuelType!,
+                                          );
 
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                'Anuncio guardado correctamente'),
-                                            backgroundColor: Colors.green,
-                                            duration: Duration(seconds: 3),
-                                          ),
-                                        );
+                                          _marcaController.clear();
+                                          _modeloController.clear();
+                                          _kmController.clear();
+                                          _anyController.clear();
+                                          _descripcionController.clear();
+                                          _selectedTipoDeCoche = '';
+                                          _selectedFuelType = '';
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Anuncio guardado correctamente'),
+                                              backgroundColor: Colors.green,
+                                              duration: Duration(seconds: 3),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Por favor, completa todos los campos correctamente'),
+                                              backgroundColor: Colors.red,
+                                              duration: Duration(seconds: 3),
+                                            ),
+                                          );
+                                        }
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
-                                            content: Text(
-                                                'Por favor, completa todos los campos correctamente'),
+                                            content:
+                                                Text('Usuario no autenticado'),
                                             backgroundColor: Colors.red,
                                             duration: Duration(seconds: 3),
                                           ),

@@ -16,22 +16,18 @@ class ServicioAuth {
       if (credencialusuario.user != null) {
         String uid = credencialusuario.user!.uid;
 
-        // Verificar si el usuario ya existe en Firestore
         DocumentSnapshot userSnapshot =
             await _firestore.collection("Usuarios").doc(uid).get();
 
         if (userSnapshot.exists) {
-          // El usuario ya existe en Firestore
           Map<String, dynamic>? userData =
               userSnapshot.data() as Map<String, dynamic>?;
           if (userData != null && !userData.containsKey("admin")) {
-            // Si el usuario no tiene el campo "admin", establecerlo en false
             await _firestore.collection("Usuarios").doc(uid).update({
               "admin": false,
             });
           }
         } else {
-          // Si el usuario no existe, crearlo con el campo "admin" en false
           await _firestore.collection("Usuarios").doc(uid).set({
             "uid": credencialusuario.user!.uid,
             "email": email,
@@ -64,7 +60,7 @@ class ServicioAuth {
           "nombre": nombre,
           "apellido": apellido,
           "telefono": telefono,
-          "admin": false, // Establecer el valor de admin como false por defecto
+          "admin": false,
         });
       }
       return credencialusuario;
@@ -87,8 +83,7 @@ class ServicioAuth {
           await _firestore.collection('Usuarios').doc(uid).get();
 
       if (snapshot.exists) {
-        Map<String, dynamic> data =
-            snapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
         return data['nombre'];
       } else {
         return ('El documento no existe');
@@ -114,16 +109,25 @@ class ServicioAuth {
   }
 
   Future<void> guardarAnuncio(
-      String marca, String modelo, int km, int any, String descripcion, String tipoCoche, String tipoCombustible) async {
+    String uid, // Agregar UID del usuario como argumento
+    String marca,
+    String modelo,
+    int km,
+    int any,
+    String descripcion,
+    String tipoCoche,
+    String tipoCombustible,
+  ) async {
     try {
       await _firestore.collection('Anuncios').add({
+        'uid': uid, // Guardar el UID del usuario junto con el anuncio
         'marca': marca,
         'modelo': modelo,
         'km': km,
         'any': any,
         'descripcion': descripcion,
-        'tipoCoche':tipoCoche,
-        'tipoCombustible':tipoCombustible,
+        'tipoCoche': tipoCoche,
+        'tipoCombustible': tipoCombustible,
       });
       anuncioEnviadoCorrectamente = true;
     } catch (e) {
@@ -136,8 +140,7 @@ class ServicioAuth {
       DocumentSnapshot snapshot =
           await _firestore.collection('Usuarios').doc(uid).get();
       if (snapshot.exists) {
-        Map<String, dynamic>? data =
-            snapshot.data() as Map<String, dynamic>?;
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
         if (data != null && data.containsKey('admin')) {
           return data['admin'] ?? false;
         }
@@ -156,7 +159,10 @@ class ServicioAuth {
       if (currentUser != null) {
         await currentUser.delete();
 
-        await FirebaseFirestore.instance.collection('Usuarios').doc(currentUser.uid).delete();
+        await FirebaseFirestore.instance
+            .collection('Usuarios')
+            .doc(currentUser.uid)
+            .delete();
 
         formularioEnviadoCorrectamente = true;
       } else {
@@ -164,7 +170,8 @@ class ServicioAuth {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        throw Exception('Debes volver a iniciar sesión recientemente para eliminar la cuenta');
+        throw Exception(
+            'Debes volver a iniciar sesión recientemente para eliminar la cuenta');
       } else {
         throw Exception('Error al eliminar la cuenta: $e');
       }
@@ -173,10 +180,20 @@ class ServicioAuth {
     }
   }
 
-  Future<List<Map<String, dynamic>>> obtenerAnuncios() async {
+  Future<List<Map<String, dynamic>>> obtenerAnunciosConDocumentos() async {
     try {
-      QuerySnapshot querySnapshot = await _firestore.collection('Anuncios').get();
-      return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      QuerySnapshot querySnapshot =
+          await _firestore.collection('Anuncios').get();
+      List<Map<String, dynamic>> anuncios = [];
+
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> anuncioData = doc.data() as Map<String, dynamic>;
+        String nombreDocumento = doc.id;
+        anuncioData['nombreDocumento'] = nombreDocumento;
+        anuncios.add(anuncioData);
+      });
+
+      return anuncios;
     } catch (e) {
       throw Exception('Error al obtener los anuncios: $e');
     }

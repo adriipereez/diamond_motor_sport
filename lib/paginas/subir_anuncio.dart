@@ -1,6 +1,8 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:diamond_motor_sport/componentes/drawerrouter.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
@@ -35,24 +37,54 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
   TextEditingController _kmController = TextEditingController();
   TextEditingController _anyController = TextEditingController();
   TextEditingController _descripcionController = TextEditingController();
-  bool _photoUploaded = false;
-  XFile? _image;
+  File? _imagenSeleccionadaApp;
+  Uint8List? _imagenSeleccionadaWeb;
+  bool _imagenAPuntoParaSubir = false;
 
-  Future<void> _pickImage(ImageSource source) async {
-    final ImagePicker _picker = ImagePicker();
-    XFile? pickedImage;
+  Future<void> _escogeImagen() async {
+    final ImagePicker picker = ImagePicker();
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    //Si escogemos imagenn y la encontramos
+    if (image != null) {
+      //Si la App se ejecuta en un dispositivo movil
+      if (!kIsWeb) {
+        File archivoSeleccionado = File(image.path);
+
+        setState(() {
+          _imagenSeleccionadaApp = archivoSeleccionado;
+          _imagenAPuntoParaSubir = true;
+        });
+      }
+
+      if (kIsWeb) {
+        Uint8List archivoEnBytes = await image.readAsBytes();
+
+        setState(() {
+          _imagenSeleccionadaWeb = archivoEnBytes;
+          _imagenAPuntoParaSubir = true;
+        });
+      }
+    }
+  }
+
+  Future<bool> pujarImatgePerUsuari(String idDocument) async {
+    //print(idDocument);
+    Reference ref =
+        FirebaseStorage.instance.ref().child("$idDocument/imagen/$idDocument");
 
     try {
-      pickedImage = await _picker.pickImage(source: source);
-    } on PlatformException catch (e) {
-      print('Error: $e');
-    }
+      if (_imagenSeleccionadaApp != null) {
+        await ref.putFile(_imagenSeleccionadaApp!);
+      } else if (_imagenSeleccionadaWeb != null) {
+        await ref.putData(_imagenSeleccionadaWeb!);
+      } else {
+        return false; // No se ha seleccionado una imagen
+      }
 
-    if (pickedImage != null) {
-      setState(() {
-        _image = pickedImage;
-        _photoUploaded = true;
-      });
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
@@ -265,7 +297,7 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 20), // Separación entre columnas
+                    const SizedBox(width: 10), // Separación entre columnas
                     Expanded(
                       flex: 1,
                       child: Container(
@@ -279,39 +311,62 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              SizedBox(height: 20.0),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _pickImage(ImageSource.gallery);
-                                },
-                                child: _photoUploaded
-                                    ? Image.file(
-                                        File(_image!.path),
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Text(
-                                        'Subir foto',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 255, 17, 0),
-                                  elevation: 0,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 16, horizontal: 24),
+                              const SizedBox(height: 10.0),
+                              GestureDetector(
+                                onTap: _escogeImagen,
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        10), // Bordes redondeados
+                                    color:
+                                        const Color.fromARGB(255, 255, 17, 0),
+                                  ),
+                                  child: const Text(
+                                    "Escoge una imagen",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
-                              SizedBox(height: 20.0),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                child: _imagenSeleccionadaWeb == null &&
+                                        _imagenSeleccionadaApp == null
+                                    ? Container(
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (_imagenSeleccionadaWeb ==
+                                                    null &&
+                                                _imagenSeleccionadaApp ==
+                                                    null) {
+                                              return '* Debes seleccionar una imagen *';
+                                            }
+                                            return null;
+                                          },
+                                          enabled: false,
+                                        ),
+                                      )
+                                    : kIsWeb
+                                        ? Image.memory(
+                                            _imagenSeleccionadaWeb!,
+                                            fit: BoxFit.fill,
+                                          )
+                                        : Image.file(
+                                            _imagenSeleccionadaApp!,
+                                            fit: BoxFit.fill,
+                                          ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               DropdownButtonFormField<String>(
                                 dropdownColor: Colors.black,
                                 borderRadius: BorderRadius.circular(0),
                                 value: _selectedTipoDeCoche,
-                                icon: Icon(Icons.arrow_downward),
-                                decoration: InputDecoration(
+                                icon: const Icon(Icons.arrow_downward),
+                                decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 12, horizontal: 16),
                                   labelText: 'Tipo de Coche',
@@ -360,7 +415,7 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
                                 borderRadius: BorderRadius.circular(20),
                                 value: _selectedFuelType,
                                 icon: Icon(Icons.arrow_downward),
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Tipo de Combustible',
                                   labelStyle: TextStyle(
                                     color: Colors.white,
@@ -417,39 +472,64 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () async {
-                                      // Obtener el UID del usuario actualmente autenticado
-                                      String? uid = FirebaseAuth
-                                          .instance.currentUser?.uid;
+                                      if (!_imagenAPuntoParaSubir) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Por favor, completa todos los campos correctamente'),
+                                            backgroundColor: Colors.red,
+                                            duration: Duration(seconds: 3),
+                                          ),
+                                        );
+                                        return ;
+                                      }
+                                      String marca = _marcaController.text;
+                                      String modelo = _modeloController.text;
+                                      int km =
+                                          int.tryParse(_kmController.text) ?? 0;
+                                      int anyo =
+                                          int.tryParse(_anyController.text) ??
+                                              0;
+                                      String descripcion =
+                                          _descripcionController.text;
 
-                                      if (uid != null) {
-                                        String marca = _marcaController.text;
-                                        String modelo = _modeloController.text;
-                                        int km =
-                                            int.tryParse(_kmController.text) ??
-                                                0;
-                                        int anyo =
-                                            int.tryParse(_anyController.text) ??
-                                                0;
-                                        String descripcion =
-                                            _descripcionController.text;
+                                      if (marca.isNotEmpty &&
+                                          modelo.isNotEmpty &&
+                                          km > 0 &&
+                                          anyo > 0 &&
+                                          descripcion.isNotEmpty &&
+                                          _selectedTipoDeCoche != null &&
+                                          _selectedFuelType != null) {
+                                        String idDocument =
+                                            await servicioAuth.guardarAnuncio(
+                                          marca,
+                                          modelo,
+                                          km,
+                                          anyo,
+                                          descripcion,
+                                          _selectedTipoDeCoche!,
+                                          _selectedFuelType!,
+                                        );
 
-                                        if (marca.isNotEmpty &&
-                                            modelo.isNotEmpty &&
-                                            km > 0 &&
-                                            anyo > 0 &&
-                                            descripcion.isNotEmpty &&
-                                            _selectedTipoDeCoche != null &&
-                                            _selectedFuelType != null) {
-                                          await servicioAuth.guardarAnuncio(
-                                            uid, // Pasar el UID del usuario
-                                            marca,
-                                            modelo,
-                                            km,
-                                            anyo,
-                                            descripcion,
-                                            _selectedTipoDeCoche!,
-                                            _selectedFuelType!,
-                                          );
+                                        if (_imagenAPuntoParaSubir) {
+                                          bool imageSubidaCorrectamente =
+                                              await pujarImatgePerUsuari(
+                                                  idDocument);
+                                          Navigator.pushReplacementNamed(
+                                              context, DrawerRoutes.principal1);
+                                          if (!imageSubidaCorrectamente) {
+                                            print("Error al subir la imagen");
+                                          }
+                                        }
+
+                                        _marcaController.clear();
+                                        _modeloController.clear();
+                                        _kmController.clear();
+                                        _anyController.clear();
+                                        _descripcionController.clear();
+                                        _selectedTipoDeCoche = '';
+                                        _selectedFuelType = '';
 
                                           _marcaController.clear();
                                           _modeloController.clear();

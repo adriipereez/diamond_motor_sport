@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -130,10 +132,13 @@ class ServicioAuth {
         'tipoCombustible': tipoCombustible,
       });
       anuncioEnviadoCorrectamente = true;
+      return docRed.id;
     } catch (e) {
       throw Exception('Error al guardar el anuncio: $e');
     }
   }
+
+
 
   Future<bool> esUsuarioAdmin(String uid) async {
     try {

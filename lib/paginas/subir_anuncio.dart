@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:diamond_motor_sport/componentes/drawerrouter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -47,9 +46,7 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
     final ImagePicker picker = ImagePicker();
     XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    //Si escogemos imagenn y la encontramos
     if (image != null) {
-      //Si la App se ejecuta en un dispositivo movil
       if (!kIsWeb) {
         File archivoSeleccionado = File(image.path);
 
@@ -71,7 +68,6 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
   }
 
   Future<bool> pujarImatgePerUsuari(String idDocument) async {
-    //print(idDocument);
     Reference ref =
         FirebaseStorage.instance.ref().child("$idDocument/imagen/$idDocument");
 

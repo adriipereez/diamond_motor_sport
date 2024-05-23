@@ -1,11 +1,11 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ServicioAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   bool formularioEnviadoCorrectamente = false;
   bool anuncioEnviadoCorrectamente = false;
 
@@ -17,22 +17,19 @@ class ServicioAuth {
 
       if (credencialusuario.user != null) {
         String uid = credencialusuario.user!.uid;
-        // Verificar si el usuario ya existe en Firestore
+
         DocumentSnapshot userSnapshot =
             await _firestore.collection("Usuarios").doc(uid).get();
 
         if (userSnapshot.exists) {
-          // El usuario ya existe en Firestore
           Map<String, dynamic>? userData =
               userSnapshot.data() as Map<String, dynamic>?;
           if (userData != null && !userData.containsKey("admin")) {
-            // Si el usuario no tiene el campo "admin", establecerlo en false
             await _firestore.collection("Usuarios").doc(uid).update({
               "admin": false,
             });
           }
         } else {
-          // Si el usuario no existe, crearlo con el campo "admin" en false
           await _firestore.collection("Usuarios").doc(uid).set({
             "uid": credencialusuario.user!.uid,
             "email": email,
@@ -126,6 +123,7 @@ class ServicioAuth {
   ) async {
     try {
       DocumentReference docRed = await _firestore.collection('Anuncios').add({
+        'uid': uid, // Guardar el UID del usuario junto con el anuncio
         'marca': marca,
         'modelo': modelo,
         'km': km,
@@ -188,15 +186,35 @@ class ServicioAuth {
     }
   }
 
-  Future<List<Map<String, dynamic>>> obtenerAnuncios() async {
+  Future<List<Map<String, dynamic>>> obtenerAnunciosConDocumentos() async {
     try {
-      QuerySnapshot querySnapshot =
-          await _firestore.collection('Anuncios').get();
-      return querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
-          .toList();
+      QuerySnapshot querySnapshot = await _firestore.collection('Anuncios').get();
+      List<Map<String, dynamic>> anuncios = [];
+
+      for (var doc in querySnapshot.docs) {
+        Map<String, dynamic> anuncioData = doc.data() as Map<String, dynamic>;
+        String nombreDocumento = doc.id;
+        anuncioData['nombreDocumento'] = nombreDocumento;
+
+        // Obtener URL de la imagen
+        String imageUrl = await _obtenerUrlImagen(nombreDocumento);
+        anuncioData['imageUrl'] = imageUrl;
+
+        anuncios.add(anuncioData);
+      }
+      return anuncios;
     } catch (e) {
       throw Exception('Error al obtener los anuncios: $e');
+    }
+  }
+
+  Future<String> _obtenerUrlImagen(String documentName) async {
+    try {
+      Reference ref = _storage.ref().child('$documentName/imagen/$documentName');
+      String url = await ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      throw Exception('Error al obtener la URL de la imagen: $e');
     }
   }
 }

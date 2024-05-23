@@ -14,19 +14,23 @@ class AnuncioDetallePage extends StatelessWidget {
       appBar: CustomAppBar(),
       drawer: CustomDrawer(),
       backgroundColor: Colors.black,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final double screenHeight = constraints.maxHeight;
-          final double screenWidth = constraints.maxWidth;
-
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Detalles del Anuncio:',
+              style: TextStyle(fontSize: 24, color: Colors.white),
+            ),
+            SizedBox(height: 16),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: screenWidth * 0.6,
-                  height: screenHeight * 0.9,
+                  width: MediaQuery.of(context).size.width *
+                      0.8,
+                  height: MediaQuery.of(context).size.height * 0.8,
                   child: Image.network(
                     imageUrl,
                     fit: BoxFit.cover,
@@ -35,29 +39,184 @@ class AnuncioDetallePage extends StatelessWidget {
                 SizedBox(width: 16),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Marca: ${anuncio['marca']}',
-                        style: TextStyle(fontSize: 40, color: Colors.white),
+                      Table(
+                        border: TableBorder.all(color: Colors.white),
+                        defaultColumnWidth: FixedColumnWidth(120.0),
+                        children: [
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Marca',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    anuncio['marca'],
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Modelo',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    anuncio['modelo'],
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Año',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    anuncio['any']
+                                        .toString(), // Convertir a String
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Kilometros',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '${anuncio['km']} km',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Combustible',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    anuncio['tipoCombustible'],
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Precio',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '${anuncio['precio'].toString()} €', // Convertir a String
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Descripcion',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    anuncio['descripcion'],
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Modelo: ${anuncio['modelo']}',
-                        style: TextStyle(fontSize: 35, color: Colors.white),
-                      ),
-                      Text(
-                        'Año: ${anuncio['any']}',
-                        style: TextStyle(fontSize: 30, color: Colors.white),
-                      ),
-                      Text(
-                        '${anuncio['km']} km',
-                        style: TextStyle(fontSize: 25, color: Colors.white),
-                      ),
-                      Text(
-                        '${anuncio['tipoCombustible']}',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      const SizedBox(height: 32),
+                      SizedBox(height: 16),
                       Center(
                         child: ElevatedButton(
                           onPressed: () {},
@@ -70,7 +229,8 @@ class AnuncioDetallePage extends StatelessWidget {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 16.0, horizontal: 32.0),
                             child: Text(
                               'Contactar',
                               style: TextStyle(fontSize: 16),
@@ -83,8 +243,8 @@ class AnuncioDetallePage extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class GridAnuncios extends StatelessWidget {
   final ServicioAuth servicioAuth = ServicioAuth();
+  final ValueNotifier<Map<String, dynamic>> _filters = ValueNotifier({});
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +17,25 @@ class GridAnuncios extends StatelessWidget {
       drawer: CustomDrawer(),
       body: Column(
         children: [
-          FilterBanner(),
+          FilterBanner(filters: _filters),
           Expanded(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: servicioAuth.obtenerAnunciosConDocumentos(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  List<Map<String, dynamic>> anuncios = snapshot.data ?? [];
-                  return CarAdsGrid(anuncios: anuncios);
-                }
+            child: ValueListenableBuilder<Map<String, dynamic>>(
+              valueListenable: _filters,
+              builder: (context, filters, _) {
+                return FutureBuilder<List<Map<String, dynamic>>>(
+                  future: servicioAuth.obtenerAnunciosConDocumentos(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      List<Map<String, dynamic>> anuncios = snapshot.data ?? [];
+                      anuncios = _applyFilters(anuncios, filters);
+                      return CarAdsGrid(anuncios: anuncios);
+                    }
+                  },
+                );
               },
             ),
           ),
@@ -36,10 +43,27 @@ class GridAnuncios extends StatelessWidget {
       ),
     );
   }
+
+  List<Map<String, dynamic>> _applyFilters(
+      List<Map<String, dynamic>> anuncios, Map<String, dynamic> filters) {
+    return anuncios.where((anuncio) {
+      final km = anuncio['km'] as double;
+      final fuelType = anuncio['tipoCombustible'] as String;
+      final year = anuncio['any'] as int;
+
+      return (filters['km'] == null || km <= filters['km']) &&
+          (filters['fuelType'] == null ||
+              filters['fuelType'] == 'Todos' ||
+              fuelType == filters['fuelType']) &&
+          (filters['maxYear'] == null || year <= filters['maxYear']);
+    }).toList();
+  }
 }
 
 class FilterBanner extends StatefulWidget {
-  const FilterBanner({Key? key}) : super(key: key);
+  final ValueNotifier<Map<String, dynamic>> filters;
+
+  const FilterBanner({Key? key, required this.filters}) : super(key: key);
 
   @override
   _FilterBannerState createState() => _FilterBannerState();
@@ -47,8 +71,16 @@ class FilterBanner extends StatefulWidget {
 
 class _FilterBannerState extends State<FilterBanner> {
   double _currentSliderValueKm = 1000000;
-  String? _selectedFuelType;
+  String _selectedFuelType = 'Todos';
   double _currentSliderValueMaxYear = 2024;
+
+  void _updateFilters() {
+    widget.filters.value = {
+      'km': _currentSliderValueKm,
+      'fuelType': _selectedFuelType,
+      'maxYear': _currentSliderValueMaxYear,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +121,7 @@ class _FilterBannerState extends State<FilterBanner> {
                           onChanged: (double value) {
                             setState(() {
                               _currentSliderValueKm = value;
+                              _updateFilters();
                             });
                           },
                         ),
@@ -126,6 +159,7 @@ class _FilterBannerState extends State<FilterBanner> {
                           onChanged: (double value) {
                             setState(() {
                               _currentSliderValueMaxYear = value;
+                              _updateFilters();
                             });
                           },
                         ),
@@ -155,11 +189,13 @@ class _FilterBannerState extends State<FilterBanner> {
                           value: _selectedFuelType,
                           onChanged: (String? newValue) {
                             setState(() {
-                              _selectedFuelType = newValue;
+                              _selectedFuelType = newValue ?? 'Todos';
+                              _updateFilters();
                             });
                           },
                           dropdownColor: Colors.black,
                           items: <String>[
+                            'Todos',
                             'Gasolina',
                             'Diesel',
                             'Eléctrico',
@@ -258,7 +294,8 @@ class CarAdsGrid extends StatelessWidget {
     );
   }
 
-  Future<List<String>> _getImagesUrls(List<Map<String, dynamic>> anuncios) async {
+  Future<List<String>> _getImagesUrls(
+      List<Map<String, dynamic>> anuncios) async {
     List<String> imageUrls = [];
     for (var anuncio in anuncios) {
       String documentName = anuncio['nombreDocumento'] as String;
@@ -300,6 +337,8 @@ class CarAdWidget extends StatelessWidget {
       color: Colors.black,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+            color: Colors.white, width: 1.0), // Añadir el borde blanco
       ),
       elevation: 5,
       child: Column(
@@ -331,15 +370,15 @@ class CarAdWidget extends StatelessWidget {
                   'Año: $year',
                   style: TextStyle(color: Colors.white),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   'Km: $mileage',
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   'Combustible: $fuelType',
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ],
             ),

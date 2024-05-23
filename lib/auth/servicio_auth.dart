@@ -1,11 +1,11 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ServicioAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   bool formularioEnviadoCorrectamente = false;
   bool anuncioEnviadoCorrectamente = false;
 
@@ -110,7 +110,7 @@ class ServicioAuth {
     }
   }
 
-  Future<void> guardarAnuncio(
+  Future<String> guardarAnuncio(
     String uid, // Agregar UID del usuario como argumento
     String marca,
     String modelo,
@@ -121,7 +121,7 @@ class ServicioAuth {
     String tipoCombustible,
   ) async {
     try {
-      await _firestore.collection('Anuncios').add({
+      DocumentReference docRed = await _firestore.collection('Anuncios').add({
         'uid': uid, // Guardar el UID del usuario junto con el anuncio
         'marca': marca,
         'modelo': modelo,
@@ -137,8 +137,6 @@ class ServicioAuth {
       throw Exception('Error al guardar el anuncio: $e');
     }
   }
-
-
 
   Future<bool> esUsuarioAdmin(String uid) async {
     try {
@@ -187,20 +185,33 @@ class ServicioAuth {
 
   Future<List<Map<String, dynamic>>> obtenerAnunciosConDocumentos() async {
     try {
-      QuerySnapshot querySnapshot =
-          await _firestore.collection('Anuncios').get();
+      QuerySnapshot querySnapshot = await _firestore.collection('Anuncios').get();
       List<Map<String, dynamic>> anuncios = [];
 
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         Map<String, dynamic> anuncioData = doc.data() as Map<String, dynamic>;
         String nombreDocumento = doc.id;
         anuncioData['nombreDocumento'] = nombreDocumento;
-        anuncios.add(anuncioData);
-      });
 
+        // Obtener URL de la imagen
+        String imageUrl = await _obtenerUrlImagen(nombreDocumento);
+        anuncioData['imageUrl'] = imageUrl;
+
+        anuncios.add(anuncioData);
+      }
       return anuncios;
     } catch (e) {
       throw Exception('Error al obtener los anuncios: $e');
+    }
+  }
+
+  Future<String> _obtenerUrlImagen(String documentName) async {
+    try {
+      Reference ref = _storage.ref().child('$documentName/imagen/$documentName');
+      String url = await ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      throw Exception('Error al obtener la URL de la imagen: $e');
     }
   }
 }

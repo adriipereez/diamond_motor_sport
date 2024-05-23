@@ -28,7 +28,7 @@ class DrawerRoutes {
       case loginORegistro:
         return MaterialPageRoute(builder: (_) => const LoginORegistro());
       case principal1:
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (_) => Home());
       case chats:
         return MaterialPageRoute(builder: (_) => const PaginaChat(emailConQuienhablamos: '', idReceptor: '',));
       case gridAnuncios1:

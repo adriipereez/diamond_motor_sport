@@ -285,6 +285,7 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
                                 }
                                 return null;
                               },
+                              maxLines: 3,
                             ),
                             const SizedBox(height: 20.0),
                             Container(

@@ -217,4 +217,8 @@ class ServicioAuth {
       throw Exception('Error al obtener la URL de la imagen: $e');
     }
   }
+
+   bool get isLoggedIn {
+    return _auth.currentUser != null;
+  }
 }

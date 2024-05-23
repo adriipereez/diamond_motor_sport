@@ -19,31 +19,38 @@ class AnuncioDetallePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Detalles del Anuncio:',
-              style: TextStyle(fontSize: 24, color: Colors.white),
-            ),
             SizedBox(height: 16),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.8,
+                  width: MediaQuery.of(context).size.width * 0.7,
                   height: MediaQuery.of(context).size.height * 0.8,
-                  child: Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+                Text(
+                    anuncio['descripcion'],
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 SizedBox(width: 16),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Text(
+                        'Detalles del Anuncio:',
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                      SizedBox(height: 16),
                       Table(
                         border: TableBorder.all(color: Colors.white),
-                        defaultColumnWidth: FixedColumnWidth(120.0),
+                        defaultColumnWidth: FixedColumnWidth(200.0),
                         children: [
                           TableRow(
                             children: [
@@ -183,30 +190,6 @@ class AnuncioDetallePage extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     '${anuncio['precio'].toString()} €', // Convertir a String
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          TableRow(
-                            children: [
-                              TableCell(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Descripcion',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    anuncio['descripcion'],
                                     style: TextStyle(
                                         fontSize: 18, color: Colors.white),
                                   ),

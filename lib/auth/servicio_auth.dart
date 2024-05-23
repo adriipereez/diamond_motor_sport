@@ -17,7 +17,6 @@ class ServicioAuth {
 
       if (credencialusuario.user != null) {
         String uid = credencialusuario.user!.uid;
-
         // Verificar si el usuario ya existe en Firestore
         DocumentSnapshot userSnapshot =
             await _firestore.collection("Usuarios").doc(uid).get();
@@ -66,7 +65,7 @@ class ServicioAuth {
           "nombre": nombre,
           "apellido": apellido,
           "telefono": telefono,
-          "admin": false, // Establecer el valor de admin como false por defecto
+          "admin": false,
         });
       }
       return credencialusuario;
@@ -89,8 +88,7 @@ class ServicioAuth {
           await _firestore.collection('Usuarios').doc(uid).get();
 
       if (snapshot.exists) {
-        Map<String, dynamic> data =
-            snapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
         return data['nombre'];
       } else {
         return ('El documento no existe');
@@ -116,7 +114,16 @@ class ServicioAuth {
   }
 
   Future<String> guardarAnuncio(
-      String marca, String modelo, int km, int any, String descripcion, String tipoCoche, String tipoCombustible) async {
+    String marca,
+    String modelo,
+    int km,
+    int any,
+    String descripcion,
+    String tipoCoche,
+    String tipoCombustible,
+    double precio, 
+    String uid,
+  ) async {
     try {
       DocumentReference docRed = await _firestore.collection('Anuncios').add({
         'marca': marca,
@@ -124,8 +131,10 @@ class ServicioAuth {
         'km': km,
         'any': any,
         'descripcion': descripcion,
-        'tipoCoche':tipoCoche,
-        'tipoCombustible':tipoCombustible,
+        'tipoCoche': tipoCoche,
+        'tipoCombustible': tipoCombustible,
+        'precio': precio, 
+        'uid': uid,
       });
       anuncioEnviadoCorrectamente = true;
       return docRed.id;
@@ -134,15 +143,12 @@ class ServicioAuth {
     }
   }
 
-
-
   Future<bool> esUsuarioAdmin(String uid) async {
     try {
       DocumentSnapshot snapshot =
           await _firestore.collection('Usuarios').doc(uid).get();
       if (snapshot.exists) {
-        Map<String, dynamic>? data =
-            snapshot.data() as Map<String, dynamic>?;
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
         if (data != null && data.containsKey('admin')) {
           return data['admin'] ?? false;
         }
@@ -161,7 +167,10 @@ class ServicioAuth {
       if (currentUser != null) {
         await currentUser.delete();
 
-        await FirebaseFirestore.instance.collection('Usuarios').doc(currentUser.uid).delete();
+        await FirebaseFirestore.instance
+            .collection('Usuarios')
+            .doc(currentUser.uid)
+            .delete();
 
         formularioEnviadoCorrectamente = true;
       } else {
@@ -169,7 +178,8 @@ class ServicioAuth {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        throw Exception('Debes volver a iniciar sesión recientemente para eliminar la cuenta');
+        throw Exception(
+            'Debes volver a iniciar sesión recientemente para eliminar la cuenta');
       } else {
         throw Exception('Error al eliminar la cuenta: $e');
       }
@@ -180,8 +190,11 @@ class ServicioAuth {
 
   Future<List<Map<String, dynamic>>> obtenerAnuncios() async {
     try {
-      QuerySnapshot querySnapshot = await _firestore.collection('Anuncios').get();
-      return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      QuerySnapshot querySnapshot =
+          await _firestore.collection('Anuncios').get();
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
     } catch (e) {
       throw Exception('Error al obtener los anuncios: $e');
     }

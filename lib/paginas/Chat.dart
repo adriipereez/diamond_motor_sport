@@ -85,10 +85,6 @@ class _PaginaChatState extends State<PaginaChat> {
           children: [
             Expanded(child: _contruirlistaMensajes()),
             _contruirZonaInputUsuario(),
-            ElevatedButton(
-              onPressed: redirigirAChatConUsuario,
-              child: Text('Chat con el usuario que publicó el anuncio'),
-            ),
           ],
         ),
       ),
@@ -146,8 +142,8 @@ class _PaginaChatState extends State<PaginaChat> {
               controller: controllerMensaje,
               decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 17, 0)),
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 255, 17, 0)),
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   fillColor: Color.fromARGB(255, 0, 0, 0),
                   filled: true,

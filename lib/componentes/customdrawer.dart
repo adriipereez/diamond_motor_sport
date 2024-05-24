@@ -85,7 +85,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           style: TextStyle(color: Colors.white)),
                       onTap: () {
                         Navigator.pushReplacementNamed(
-                            context, DrawerRoutes.gridAnuncios1);
+                            context, DrawerRoutes.sobreNosotros1);
                       },
                     ),
                     user == null

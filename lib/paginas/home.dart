@@ -142,21 +142,31 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SubirAnuncio(),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: Text(
-                          'Subir anuncio',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            // Resto del código del Drawer
+                            if (_servicioAuth.isLoggedIn)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SubirAnuncio(),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                ),
+                                child: Text(
+                                  'Subir anuncio',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ],
@@ -409,62 +419,109 @@ class _ImageWithTextSliderState extends State<ImageWithTextSlider> {
 }
 
 class ContactForm extends StatefulWidget {
+  const ContactForm({Key? key});
+
   @override
   _ContactFormState createState() => _ContactFormState();
 }
 
 class _ContactFormState extends State<ContactForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _messageController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  final ServicioAuth servicioAuth = ServicioAuth();
+
+  bool _nameClicked = false;
+  bool _emailClicked = false;
+  bool _messageClicked = false;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 600,
-      height: 450,
-      child: Form(
-        key: _formKey,
+      width: 600.0,
+      height: 450.0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          children: <Widget>[
-            CustomTextField(
-              controller: _nameController,
-              hintText: 'Nombre',
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Formulario de Contacto',
+              style: GoogleFonts.kanit(
+                color: Colors.white,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
+            CustomTextField(controller: _nameController, hintText: 'Nombre'),
+            const SizedBox(height: 16.0),
             CustomTextField(
-              controller: _emailController,
-              hintText: 'Correo Electrónico',
-            ),
-            SizedBox(height: 16.0),
-            CustomTextField(
-              controller: _phoneController,
-              hintText: 'Teléfono',
-            ),
-            SizedBox(height: 16.0),
+                controller: _emailController, hintText: 'Correo Electrónico'),
+            const SizedBox(height: 16.0),
             CustomTextField(
               controller: _messageController,
               hintText: 'Mensaje',
-              maxLines: 5,
+              maxLines: 3,
             ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  // Implementar lógica para enviar el formulario
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Enviando mensaje...')),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red,
-              ),
-              child: Text(
-                'Enviar',
-                style: TextStyle(color: Colors.white),
+            const SizedBox(height: 16.0),
+            Center(
+              child: Container(
+                width: 300,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 53, 47, 47),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () async {
+                      String nombre = _nameController.text;
+                      String email = _emailController.text;
+                      String mensaje = _messageController.text;
+
+                      if (nombre.isNotEmpty &&
+                          email.isNotEmpty &&
+                          mensaje.isNotEmpty) {
+                        await servicioAuth.guardarFormulario(
+                            nombre, email, mensaje);
+
+                        // Limpiar los campos después de enviar el formulario
+                        _nameController.clear();
+                        _emailController.clear();
+                        _messageController.clear();
+                      } else {
+                        // Manejar el caso en el que algún campo esté vacío
+                      }
+
+                      // Mostrar el SnackBar si el formulario se envió correctamente
+                      if (servicioAuth.formularioEnviadoCorrectamente) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Formulario enviado correctamente'),
+                          ),
+                        );
+                        servicioAuth.formularioEnviadoCorrectamente =
+                            false; // Reiniciar el estado
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Center(
+                        child: Text(
+                          'ENVIAR',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            letterSpacing: 2,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

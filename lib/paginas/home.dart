@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth < 600
         ? 2
-        : 4; // Ajusta el número de columnas según el ancho de la pantalla
+        : 4; 
 
     return Scaffold(
       appBar: CustomAppBar(showBottomLine: true),

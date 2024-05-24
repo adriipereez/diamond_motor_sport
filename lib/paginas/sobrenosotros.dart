@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
-import 'package:flutter/widgets.dart';
+import 'package:diamond_motor_sport/componentes/footer.dart';
 
 class SobreNosotros extends StatelessWidget {
   const SobreNosotros({Key? key}) : super(key: key);
@@ -71,7 +71,8 @@ class SobreNosotros extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.2),
                         child: Column(
                           children: _buildTexts(),
                         ),
@@ -83,6 +84,16 @@ class SobreNosotros extends StatelessWidget {
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Divider(
+            color: Colors.white,
+            thickness: 1,
+          ),
+          Footer(),
+        ],
       ),
     );
   }

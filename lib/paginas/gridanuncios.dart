@@ -1,6 +1,7 @@
 import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
+import 'package:diamond_motor_sport/componentes/footer.dart';
 import 'package:diamond_motor_sport/paginas/paginaCoches.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,15 @@ class GridAnuncios extends StatelessWidget {
                     } else {
                       List<Map<String, dynamic>> anuncios = snapshot.data ?? [];
                       anuncios = _applyFilters(anuncios, filters);
-                      return CarAdsGrid(anuncios: anuncios);
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: CarAdsGrid(anuncios: anuncios),
+                          ),
+                          Divider(color: Colors.white),
+                          Footer(),
+                        ],
+                      );
                     }
                   },
                 );
@@ -43,6 +52,7 @@ class GridAnuncios extends StatelessWidget {
       ),
     );
   }
+
 
   List<Map<String, dynamic>> _applyFilters(
       List<Map<String, dynamic>> anuncios, Map<String, dynamic> filters) {

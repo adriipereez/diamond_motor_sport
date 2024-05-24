@@ -545,7 +545,7 @@ class _SubirAnuncioState extends State<SubirAnuncio> {
                                         descripcion,
                                         _selectedTipoDeCoche!,
                                         _selectedFuelType!,
-                                        precio, // Pasar el precio al guardarAnuncio()
+                                        precio, 
                                         currentUserId,
                                       );
 

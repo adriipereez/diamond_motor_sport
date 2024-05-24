@@ -9,16 +9,19 @@ import 'package:diamond_motor_sport/auth/servicio_auth.dart';
 class PaginaChat extends StatefulWidget {
   final String emailConQuienhablamos;
   final String idReceptor;
+  final String? idEmisor;
 
   const PaginaChat({
     Key? key,
     required this.emailConQuienhablamos,
     required this.idReceptor,
+    this.idEmisor,
   }) : super(key: key);
 
   @override
   State<PaginaChat> createState() => _PaginaChatState();
 }
+
 
 class _PaginaChatState extends State<PaginaChat> {
   final TextEditingController controllerMensaje = TextEditingController();
@@ -163,7 +166,7 @@ class _PaginaChatState extends State<PaginaChat> {
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.black)),
             icon: const Icon(Icons.send),
-            color: Color.fromARGB(255, 255, 0, 0),
+            color: const Color.fromARGB(255, 255, 0, 0),
             onPressed: EnviarMensaje,
           ),
         ],

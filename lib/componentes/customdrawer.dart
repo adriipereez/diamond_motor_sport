@@ -97,7 +97,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                 style: TextStyle(color: Colors.white)),
                             onTap: () {
                               Navigator.pushReplacementNamed(
-                                  context, DrawerRoutes.Listachats2);
+                                  context, DrawerRoutes.listachats2);
                             },
                           ),
                     const SizedBox(height: 50),

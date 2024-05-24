@@ -1,5 +1,7 @@
 import 'package:diamond_motor_sport/componentes/customappbar.dart';
 import 'package:diamond_motor_sport/componentes/customdrawer.dart';
+import 'package:diamond_motor_sport/paginas/Chat.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AnuncioDetallePage extends StatelessWidget {
@@ -10,6 +12,8 @@ class AnuncioDetallePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String uidUsuarioAnuncio = anuncio['uid'];
+
     return Scaffold(
       appBar: CustomAppBar(),
       drawer: CustomDrawer(),
@@ -219,7 +223,24 @@ class AnuncioDetallePage extends StatelessWidget {
                       SizedBox(height: 32),
                       Center(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final String uidUsuarioAnuncio = anuncio[
+                                'uid']; // Obtener el UID del usuario del anuncio
+
+                            // Abre la pantalla de chat pasando el UID del usuario del anuncio
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PaginaChat(
+                                  emailConQuienhablamos:
+                                      '', // Puedes pasar el email si lo necesitas
+                                  idReceptor: uidUsuarioAnuncio,
+                                  idEmisor:
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                ),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.red, // Color del botón
                             onPrimary:

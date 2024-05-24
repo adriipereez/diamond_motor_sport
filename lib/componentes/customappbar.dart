@@ -116,7 +116,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                   ElevatedButton(
                                     onPressed: () {
                                       Navigator.pushReplacementNamed(
-                                          context, DrawerRoutes.Editarperfil);
+                                          context, DrawerRoutes.editarperfil);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:

@@ -4,7 +4,6 @@ class Footer extends StatefulWidget {
   const Footer({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _FooterState createState() => _FooterState();
 }
 
@@ -36,15 +35,20 @@ class _FooterState extends State<Footer> {
                 isHoveringAvisoLegal = false;
               });
             },
-            child: Text(
-              'Aviso Legal',
-              style: TextStyle(
-                color: isHoveringAvisoLegal
-                    ? const Color.fromARGB(255, 88, 59, 255)
-                    : Colors.white,
-                decoration: isHoveringAvisoLegal
-                    ? TextDecoration.underline
-                    : TextDecoration.none,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/avisoLegal');
+              },
+              child: Text(
+                'Aviso Legal',
+                style: TextStyle(
+                  color: isHoveringAvisoLegal
+                      ? const Color.fromARGB(255, 88, 59, 255)
+                      : Colors.white,
+                  decoration: isHoveringAvisoLegal
+                      ? TextDecoration.underline
+                      : TextDecoration.none,
+                ),
               ),
             ),
           ),
@@ -61,9 +65,11 @@ class _FooterState extends State<Footer> {
               });
             },
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/politicas');
+              },
               child: Text(
-                'Políticas de Privacidad',
+                'Políticas de privacidad',
                 style: TextStyle(
                   color: isHoveringPoliticas
                       ? const Color.fromARGB(255, 88, 59, 255)
@@ -89,7 +95,7 @@ class _FooterState extends State<Footer> {
           ),
           const SizedBox(width: 10.0),
           Image.asset(
-            'assets/yt.png', // Ruta de la imagen de Instagram
+            'assets/yt.png', // Ruta de la imagen de YouTube
             width: 25.0,
             height: 30.0,
           ),

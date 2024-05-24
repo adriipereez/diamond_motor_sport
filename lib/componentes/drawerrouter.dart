@@ -1,4 +1,6 @@
 import 'package:diamond_motor_sport/auth/portal_auth.dart';
+import 'package:diamond_motor_sport/paginas/Avisolegal.dart';
+import 'package:diamond_motor_sport/paginas/Politicas.dart';
 import 'package:diamond_motor_sport/paginas/sobrenosotros.dart';
 import 'package:diamond_motor_sport/paginas/editarDatosusuarios.dart';
 import 'package:diamond_motor_sport/paginas/gridanuncios.dart';
@@ -17,9 +19,11 @@ class DrawerRoutes {
   static const String chats = '/chat';
   static const String gridAnuncios1= '/GridAnuncios';
   static const String sobreNosotros1= '/SobreNosotros';
-  static const String Listachats2= '/listachats';
+  static const String listachats2= '/listachats';
   static const String mensajesform= '/mensajesForm';
-  static const String Editarperfil= '/editarDatosUsuarios';
+  static const String editarperfil= '/editarDatosUsuarios';
+  static const String avisoLegal = '/avisoLegal'; 
+  static const String politicas = '/politicas'; 
 
   static Route<dynamic> generateDrawerRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -35,15 +39,19 @@ class DrawerRoutes {
         return MaterialPageRoute(builder: (_) => GridAnuncios());
       case sobreNosotros1:
         return MaterialPageRoute(builder: (_) => SobreNosotros());
-      case Listachats2:
+      case listachats2:
         return MaterialPageRoute(builder: (_) => Listachats());
       case mensajesform:
         return MaterialPageRoute(builder: (_) => mensajesForm());
-        case Editarperfil:
+      case editarperfil:
         return MaterialPageRoute(builder: (_) => EditarDatosUsuario());
+      case avisoLegal:
+        return MaterialPageRoute(builder: (_) => const AvisoLegal());
+      case politicas:
+        return MaterialPageRoute(builder: (_) => const PoliticasDePrivacidad());
       default:
         return MaterialPageRoute(
-            builder: (_) =>const Scaffold(body: Center(child: Text('Ruta no encontrada'))));
+            builder: (_) => const Scaffold(body: Center(child: Text('Ruta no encontrada'))));
     }
   }
 }

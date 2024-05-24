@@ -78,8 +78,13 @@ class Listachats extends StatelessWidget {
           return Container();
         }
 
+        // Verificar si el campo 'nombre' está disponible y no está vacío
+        String displayName = datosusuario['nombre']?.isNotEmpty == true
+            ? datosusuario['nombre']
+            : datosusuario['email'];
+
         return Itemusuario(
-          emailUsuario: datosusuario['email'],
+          emailUsuario: displayName, // Usar displayName en lugar de email
           Ontap: () {
             Navigator.push(
               context,

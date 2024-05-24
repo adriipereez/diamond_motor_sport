@@ -257,7 +257,7 @@ class _HomeState extends State<Home> {
                       snapshot.data!,
                       fit: BoxFit.cover, // Ajuste de la imagen
                       height:
-                          200, // Altura de la imagen igual a la altura de la tarjeta
+                          195, // Altura de la imagen igual a la altura de la tarjeta
                       width: double
                           .infinity, // Asegura que la imagen ocupe todo el ancho
                     ),
@@ -275,6 +275,10 @@ class _HomeState extends State<Home> {
                             color: Colors.white,
                           ),
                         ),
+                        Text(
+                          '${anuncio['any']}',
+                          style: TextStyle(color: Colors.white),
+                        ),
                         SizedBox(height: 2),
                         Text(
                           '${anuncio['km']} km',
@@ -282,7 +286,7 @@ class _HomeState extends State<Home> {
                         ),
                         SizedBox(height: 2),
                         Text(
-                          'Año: ${anuncio['any']}',
+                          '${anuncio['precio']} €',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],

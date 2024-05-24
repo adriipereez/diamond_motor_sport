@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -136,12 +136,12 @@ class _HomeState extends State<Home> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                         ),
-                        child: Text(
+                        child: const Text(
                           'Sobre nosotros',
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       Container(
                         alignment: Alignment.center,
                         child: Column(
@@ -160,7 +160,7 @@ class _HomeState extends State<Home> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.red,
                                 ),
-                                child: Text(
+                                child: const Text(
                                   'Subir anuncio',
                                   style: TextStyle(
                                       fontSize: 20, color: Colors.white),
